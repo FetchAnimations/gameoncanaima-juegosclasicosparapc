@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -121,6 +121,12 @@
             color: #800000;
         }
 
+        .btn-edit {
+            background: linear-gradient(180deg, #eaf2ff, #cce0ff);
+            border: 1px solid #0055ea;
+            color: #003399;
+        }
+
         .btn-donate {
             background: linear-gradient(180deg, #fff8db, #ffe082);
             border: 1px solid #b78103;
@@ -221,6 +227,15 @@
             margin-bottom: 4px;
         }
 
+        .comment-item {
+            background: #f9f9f9;
+            border: 1px solid #d4d0c8;
+            padding: 5px;
+            margin-bottom: 5px;
+            border-radius: 2px;
+            font-size: 11px;
+        }
+
         .status-bar {
             background: #ece9d8;
             border-top: 1px solid #b5b5b5;
@@ -230,7 +245,6 @@
             font-size: 11px;
         }
 
-        /* MODAL WINDOWS XP */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -259,10 +273,14 @@
             margin-bottom: 2px;
         }
 
-        .form-group input, .form-group textarea {
+        .form-group input, .form-group textarea, .form-group select {
             width: 100%;
             padding: 4px;
             border: 2px inset #7f9db9;
+        }
+
+        .admin-only {
+            display: none;
         }
     </style>
 </head>
@@ -308,17 +326,18 @@
                         ¡Hola! Te damos la bienvenida a <strong>GameOnCanaima</strong>, el proyecto dedicado a la preservación, archivo y distribución ligera de videojuegos retro y software de PC.
                     </p>
 
+                    <!-- SECCIÓN DE NOVEDADES Y AVISOS -->
+                    <div style="background:#fff8db; border:2px solid #e59700; padding:10px; margin-bottom:12px; border-radius:3px;">
+                        <h4 style="margin:0 0 6px 0; color:#5c4000; font-size:12px;">📢 NOVEDADES Y AVISOS OFICIALES:</h4>
+                        <div id="avisoContenido" style="font-size:12px; line-height:1.4; color:#333;">
+                            Cargando avisos del sistema...
+                        </div>
+                    </div>
+
                     <div style="background:#fff; border:2px inset #7f9db9; padding:10px; margin-bottom:12px;">
                         <h4 style="margin:0 0 6px 0; color:#003c74; font-size:12px;">🎯 Objetivo del Proyecto:</h4>
                         <p style="margin:0; line-height: 1.4;">
                             Brindar una biblioteca accesible, segura y libre de instaladores engañosos para equipos de bajos recursos y amantes de los clásicos.
-                        </p>
-                    </div>
-
-                    <div style="background:#e1f0ff; border:1px solid #7f9db9; padding:10px; margin-bottom:15px;">
-                        📌 <strong>Aviso de Servidores:</strong>
-                        <p style="margin:5px 0 0 0;">
-                            Para mantener los archivos alojados y garantizar la estabilidad del sitio, utilizaremos acortadores antes de los enlaces de MediaFire.
                         </p>
                     </div>
 
@@ -340,18 +359,7 @@
                 <div id="tab-programas" class="tab-content">
                     <div class="section-header">PROGRAMAS Y UTILIDADES RETRO</div>
                     <div id="programsContainer">
-                        <div class="game-card" data-titulo="daemon tools v4" data-genero="utilidad emulador">
-                            <img src="https://via.placeholder.com/85?text=ISO" class="game-thumb">
-                            <div class="game-info">
-                                <h3 class="game-title">Daemon Tools V4</h3>
-                                <div style="font-size:10px; color:#555;"><strong>Categoría:</strong> Utilidad / Emulador de ISOs</div>
-                                <p>Herramienta esencial para montar imágenes virtuales de CD/DVD.</p>
-                                <div style="margin-top:6px; display:flex; gap:6px;">
-                                    <button class="btn-win" onclick="abrirAvisoDescarga('https://www.mediafire.com')">💾 Descargar Programa</button>
-                                    <button class="btn-win btn-danger" onclick="reportarEnlace('Daemon Tools V4')">🚨 Reportar Link Caído</button>
-                                </div>
-                            </div>
-                        </div>
+                        <p style="padding:10px;">Cargando programas y utilidades...</p>
                     </div>
                 </div>
 
@@ -365,27 +373,21 @@
                         <button class="btn-win" onclick="filtrarPorGenero('beat em up')">🥊 Beat 'em up</button>
                         <button class="btn-win" onclick="filtrarPorGenero('plataformas')">🏃 Plataformas 2D/3D</button>
                         <button class="btn-win" onclick="filtrarPorGenero('shmup')">🚀 Shoot 'em up</button>
-                        
                         <button class="btn-win" onclick="filtrarPorGenero('estrategia')">🏰 Estrategia (RTS/TBS)</button>
                         <button class="btn-win" onclick="filtrarPorGenero('tower defense')">🛡️ Tower Defense</button>
                         <button class="btn-win" onclick="filtrarPorGenero('city builder')">🏙️ City Builder</button>
-
                         <button class="btn-win" onclick="filtrarPorGenero('rpg')">🛡️ Rol / Action RPG</button>
                         <button class="btn-win" onclick="filtrarPorGenero('roguelike')">🎲 Roguelike / Lite</button>
                         <button class="btn-win" onclick="filtrarPorGenero('metroidvania')">🗺️ Metroidvania</button>
-
                         <button class="btn-win" onclick="filtrarPorGenero('aventura')">🔍 Aventura Gráfica</button>
                         <button class="btn-win" onclick="filtrarPorGenero('novela visual')">📖 Novela Visual</button>
                         <button class="btn-win" onclick="filtrarPorGenero('point and click')">🖱️ Point and Click</button>
-
                         <button class="btn-win" onclick="filtrarPorGenero('terror')">👻 Survival Horror</button>
                         <button class="btn-win" onclick="filtrarPorGenero('carreras')">🏎️ Carreras / Motor</button>
                         <button class="btn-win" onclick="filtrarPorGenero('simulacion')">✈️ Simulación</button>
-
                         <button class="btn-win" onclick="filtrarPorGenero('puzles')">🧩 Puzles / Lógica</button>
                         <button class="btn-win" onclick="filtrarPorGenero('casual')">🎮 Casual / Arcade</button>
                         <button class="btn-win" onclick="filtrarPorGenero('lucha')">👊 Lucha / Fighting</button>
-
                         <button class="btn-win" onclick="filtrarPorGenero('')" style="grid-column: span 3; background:#d0e4ff;">🔄 Mostrar Todos los Títulos</button>
                     </div>
                 </div>
@@ -393,36 +395,45 @@
                 <!-- ADMIN -->
                 <div id="tab-admin" class="tab-content">
                     <div class="section-header">⚙️ PANEL DE CONTROL DE ADMINISTRACIÓN</div>
-                    <div style="display:flex; gap:10px; margin-bottom:10px;">
-                        <button class="btn-win" onclick="mostrarSeccionAdmin('form-juego')">➕ Añadir Nuevo Juego</button>
+                    <div style="display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap;">
+                        <button class="btn-win" onclick="mostrarSeccionAdmin('form-juego')">➕ Publicar Juego / Programa</button>
+                        <button class="btn-win" onclick="mostrarSeccionAdmin('gestion-avisos')">📢 Publicar Aviso en Inicio</button>
                         <button class="btn-win" onclick="mostrarSeccionAdmin('gestion-donacion')">💰 Configurar Donaciones</button>
                     </div>
 
+                    <!-- FORMULARIO JUEGOS/PROGRAMAS -->
                     <div id="sec-form-juego" style="background:#fff; border:2px inset #7f9db9; padding:10px; margin-bottom:10px;">
-                        <h4 style="margin:0 0 8px 0; color:#003c74;">Publicar / Editar Ficha de Juego</h4>
+                        <h4 style="margin:0 0 8px 0; color:#003c74;">Publicar / Editar Ficha de Juego o Programa</h4>
                         <form id="adminGameForm" onsubmit="guardarJuegoAdmin(event)">
                             <div class="form-group">
-                                <label>ID Único (Ej: isaac-rebirth):</label>
+                                <label>Tipo de Entrada:</label>
+                                <select id="adm_tipo">
+                                    <option value="juego">🎮 Videojuego Clásico</option>
+                                    <option value="programa">💾 Programa / Utilidad Retro</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>ID Único (Ej: isaac-rebirth o daemon-tools):</label>
                                 <input type="text" id="adm_id" required>
                             </div>
                             <div class="form-group">
-                                <label>Título del Juego:</label>
+                                <label>Título:</label>
                                 <input type="text" id="adm_titulo" required>
                             </div>
                             <div class="form-group">
                                 <label>Categoría / Géneros:</label>
-                                <input type="text" id="adm_categoria" placeholder="Ej: Roguelike, Acción" required>
+                                <input type="text" id="adm_categoria" placeholder="Ej: Roguelike, Acción / Utilidad ISO" required>
                             </div>
                             <div class="form-group">
-                                <label>Año de Lanzamiento:</label>
-                                <input type="text" id="adm_lanzamiento" placeholder="Ej: 2011">
+                                <label>Año / Versión:</label>
+                                <input type="text" id="adm_lanzamiento" placeholder="Ej: 2011 o v4.0">
                             </div>
                             <div class="form-group">
                                 <label>Descripción:</label>
                                 <textarea id="adm_descripcion" rows="3"></textarea>
                             </div>
                             <div class="form-group">
-                                <label>Notas de Instalación:</label>
+                                <label>Notas de Instalación / Uso:</label>
                                 <textarea id="adm_notas" rows="2"></textarea>
                             </div>
                             <div class="form-group">
@@ -433,10 +444,24 @@
                                 <label>URL de Portada / Imagen:</label>
                                 <input type="url" id="adm_portada_url" placeholder="https://...">
                             </div>
-                            <button type="submit" class="btn-win" style="background:#e1f0ff; width:100%; justify-content:center; padding:6px; margin-top:5px;">💾 Guardar Ficha</button>
+                            <div style="display:flex; gap:6px;">
+                                <button type="submit" class="btn-win" style="background:#e1f0ff; flex:1; justify-content:center; padding:6px; margin-top:5px;">💾 Guardar Ficha</button>
+                                <button type="button" class="btn-win" onclick="limpiarFormularioAdmin()" style="padding:6px; margin-top:5px;">🧹 Limpiar</button>
+                            </div>
                         </form>
                     </div>
 
+                    <!-- GESTIÓN DE AVISOS -->
+                    <div id="sec-gestion-avisos" style="display:none; background:#fff; border:2px inset #7f9db9; padding:10px;">
+                        <h4 style="margin:0 0 8px 0; color:#003c74;">Publicar Novedades en la Pantalla de Inicio</h4>
+                        <div class="form-group">
+                            <label>Mensaje del Aviso:</label>
+                            <textarea id="adm_aviso_texto" rows="4" placeholder="Escribe el mensaje de novedades..."></textarea>
+                        </div>
+                        <button class="btn-win" onclick="guardarAvisoAdmin()" style="width:100%; justify-content:center; padding:6px;">📢 Actualizar Aviso Principal</button>
+                    </div>
+
+                    <!-- GESTIÓN DE DONACIONES -->
                     <div id="sec-gestion-donacion" style="display:none; background:#fff; border:2px inset #7f9db9; padding:10px;">
                         <h4 style="margin:0 0 8px 0; color:#003c74;">Modificar Botón de Donaciones</h4>
                         <div class="form-group">
@@ -452,12 +477,19 @@
 
         <div class="sidebar">
             <div class="inset-panel" style="min-height:auto;">
-                <div class="section-header">💬 COMENTARIOS Y PEDIDOS</div>
-                <p style="font-size:11px;">¿Buscas un juego en específico? Déjanos tu pedido:</p>
+                <div class="section-header">💬 PEDIDOS Y COMENTARIOS</div>
+                <p style="font-size:11px;">¿Buscas un juego? Deja tu mensaje:</p>
                 <div class="comments-box">
                     <input type="text" id="commentUser" class="search-box" style="width:100%; margin-bottom:4px;" placeholder="Tu Nick...">
                     <textarea id="commentText" placeholder="Escribe tu pedido..."></textarea>
                     <button class="btn-win" style="width:100%; justify-content:center;" onclick="enviarComentario()">Enviar Pedido</button>
+                </div>
+
+                <div style="margin-top:10px; border-top:1px solid #d4d0c8; padding-top:6px;">
+                    <strong style="font-size:11px; color:#003c74;">Últimos Pedidos:</strong>
+                    <div id="commentsList" style="margin-top:6px; max-height:180px; overflow-y:auto;">
+                        <p style="font-size:10px; color:#777;">Cargando pedidos...</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -500,8 +532,8 @@
     let urlDescargaActual = "";
     let donacionUrlActual = "#";
     let supabaseClient = null;
+    let esModoAdmin = false;
 
-    // INICIALIZACIÓN CON CREDENCIALES REALES
     try {
         const SUPABASE_URL = "https://rxzelhiyaqyzneztpwdw.supabase.co";
         const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4emVsaGl5YXF5em5lenRwd2R3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwODUyNzgsImV4cCI6MjEwNDY2MTI3OH0.te_ZkJ9FJ1wVV01dYQ4LeXWVJvUnaiHCMOYhISNMYSs";
@@ -509,19 +541,15 @@
             supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         }
     } catch(e) {
-        console.warn("Error al inicializar Supabase:", e);
+        console.warn("Error con Supabase:", e);
     }
 
     function switchTab(tabId, element) {
         let contents = document.getElementsByClassName('tab-content');
-        for (let i = 0; i < contents.length; i++) {
-            contents[i].classList.remove('active');
-        }
+        for (let i = 0; i < contents.length; i++) contents[i].classList.remove('active');
 
         let tabs = document.getElementsByClassName('tab-btn');
-        for (let i = 0; i < tabs.length; i++) {
-            tabs[i].classList.remove('active');
-        }
+        for (let i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
 
         const targetTab = document.getElementById('tab-' + tabId);
         if (targetTab) targetTab.classList.add('active');
@@ -560,9 +588,7 @@
     }
 
     document.getElementById('btnContinuarDescarga').onclick = function() {
-        if(urlDescargaActual) {
-            window.open(urlDescargaActual, '_blank');
-        }
+        if(urlDescargaActual) window.open(urlDescargaActual, '_blank');
         cerrarModal();
     };
 
@@ -582,20 +608,69 @@
         }
     }
 
-    function enviarComentario() {
-        let nick = document.getElementById('commentUser').value;
-        let msg = document.getElementById('commentText').value;
+    // ENVÍO Y GUARDADO REAL DE COMENTARIOS EN SUPABASE
+    async function enviarComentario() {
+        let nick = document.getElementById('commentUser').value.trim();
+        let msg = document.getElementById('commentText').value.trim();
 
         if(!nick || !msg) {
-            alert("Por favor completa los campos.");
+            alert("Por favor completa tu Nick y el Pedido.");
             return;
         }
 
-        alert("¡Gracias " + nick + "! Tu pedido ha sido registrado.");
-        document.getElementById('commentText').value = "";
+        if(!supabaseClient) {
+            alert("Error al conectar con la base de datos.");
+            return;
+        }
+
+        try {
+            const { error } = await supabaseClient
+                .from('comentarios')
+                .insert([{ nick: nick, mensaje: msg }]);
+
+            if (error) throw error;
+
+            alert("¡Gracias " + nick + "! Tu pedido ha sido guardado.");
+            document.getElementById('commentText').value = "";
+            cargarComentarios();
+        } catch (err) {
+            console.error("Error al guardar comentario:", err);
+            alert("No se pudo publicar el pedido. Recuerda ejecutar la consulta SQL en Supabase.");
+        }
     }
 
-    // LISTENER PALABRA SECRETA "gameoncanaima"
+    async function cargarComentarios() {
+        const box = document.getElementById('commentsList');
+        if(!supabaseClient) return;
+
+        try {
+            const { data, error } = await supabaseClient
+                .from('comentarios')
+                .select('*')
+                .order('created_at', { ascending: false })
+                .limit(5);
+
+            if(error) throw error;
+
+            if(data && data.length > 0) {
+                let html = '';
+                data.forEach(c => {
+                    html += `
+                        <div class="comment-item">
+                            <strong>${c.nick}:</strong> ${c.mensaje}
+                        </div>
+                    `;
+                });
+                box.innerHTML = html;
+            } else {
+                box.innerHTML = '<p style="font-size:10px; color:#777;">No hay pedidos recientes.</p>';
+            }
+        } catch(err) {
+            box.innerHTML = '<p style="font-size:10px; color:#777;">Aún no hay mensajes.</p>';
+        }
+    }
+
+    // MODO ADMIN ("gameoncanaima")
     let bufferTeclado = "";
     const CLAVE_SECRETA = "gameoncanaima";
 
@@ -661,26 +736,34 @@
     }
 
     function desbloquearModoAdmin() {
+        esModoAdmin = true;
         const btnTab = document.getElementById('btnAdminTab');
         btnTab.style.display = 'inline-block';
+        
+        const elementosAdmin = document.querySelectorAll('.admin-only');
+        elementosAdmin.forEach(el => el.style.display = 'inline-flex');
+
         switchTab('admin', btnTab);
     }
 
     function mostrarSeccionAdmin(sec) {
         document.getElementById('sec-form-juego').style.display = (sec === 'form-juego') ? 'block' : 'none';
+        document.getElementById('sec-gestion-avisos').style.display = (sec === 'gestion-avisos') ? 'block' : 'none';
         document.getElementById('sec-gestion-donacion').style.display = (sec === 'gestion-donacion') ? 'block' : 'none';
     }
 
-    // GUARDADO REAL EN SUPABASE
+    function limpiarFormularioAdmin() {
+        document.getElementById('adminGameForm').reset();
+        document.getElementById('adm_id').readOnly = false;
+    }
+
     async function guardarJuegoAdmin(e) {
         e.preventDefault();
 
-        if (!supabaseClient) {
-            alert("Error: Supabase no está inicializado.");
-            return;
-        }
+        if (!supabaseClient) return alert("Error: Supabase no disponible.");
 
-        const nuevoJuego = {
+        const tipoSeleccionado = document.getElementById('adm_tipo').value;
+        const nuevoRegistro = {
             id: document.getElementById('adm_id').value.trim(),
             titulo: document.getElementById('adm_titulo').value.trim(),
             categoria: document.getElementById('adm_categoria').value.trim(),
@@ -688,84 +771,169 @@
             descripcion: document.getElementById('adm_descripcion').value.trim(),
             notas: document.getElementById('adm_notas').value.trim(),
             download_url: document.getElementById('adm_download_url').value.trim(),
-            portada_file_id: document.getElementById('adm_portada_url').value.trim()
+            portada_file_id: document.getElementById('adm_portada_url').value.trim(),
+            tipo: tipoSeleccionado
         };
 
         try {
-            const { error } = await supabaseClient.from('juegos').upsert([nuevoJuego]);
+            const { error } = await supabaseClient.from('juegos').upsert([nuevoRegistro]);
             if (error) throw error;
 
-            alert("¡Juego subido y guardado con éxito en Supabase!");
-            document.getElementById('adminGameForm').reset();
-            cargarJuegosSupabase(); // Refresca la lista automáticamente
+            alert(`¡Ficha de ${tipoSeleccionado} guardada con éxito!`);
+            limpiarFormularioAdmin();
+            cargarJuegosSupabase(); 
         } catch (err) {
-            console.error("Error guardando el juego:", err);
-            alert("Ocurrió un error al guardar: " + err.message);
+            alert("Error al guardar: " + err.message);
         }
     }
 
-    function guardarDonacionAdmin() {
-        const url = document.getElementById('adm_donacion_url').value.trim();
-        if (url) {
-            donacionUrlActual = url;
-            document.getElementById('btnDonar').setAttribute('href', url);
-            alert("Enlace de donaciones actualizado.");
-        }
-    }
-
-    // CARGA DE JUEGOS DESDE SUPABASE
-    async function cargarJuegosSupabase() {
-        const container = document.getElementById('gamesContainer');
-
-        if (!supabaseClient) {
-            container.innerHTML = '<p style="padding:10px;">Error al conectar con Supabase.</p>';
-            return;
-        }
+    async function eliminarRegistroAdmin(idRegistro, tituloRegistro) {
+        if (!confirm(`¿Eliminar "${tituloRegistro}"?`)) return;
+        if (!supabaseClient) return;
 
         try {
-            const { data: juegos, error } = await supabaseClient.from('juegos').select('*');
+            const { error } = await supabaseClient.from('juegos').delete().eq('id', idRegistro);
             if (error) throw error;
 
-            if (!juegos || juegos.length === 0) {
-                container.innerHTML = '<p style="padding:10px;">No hay juegos publicados aún.</p>';
-                return;
-            }
-
-            container.innerHTML = '';
-            juegos.forEach(juego => {
-                const card = document.createElement('div');
-                card.className = 'game-card';
-                card.setAttribute('data-titulo', (juego.titulo || "").toLowerCase());
-                card.setAttribute('data-genero', (juego.categoria || "").toLowerCase());
-
-                const imgPortada = juego.portada_file_id || 'https://via.placeholder.com/85?text=GAME';
-
-                card.innerHTML = `
-                    <img src="${imgPortada}" class="game-thumb">
-                    <div class="game-info">
-                        <h3 class="game-title">${juego.titulo}</h3>
-                        <div style="font-size:10px; color:#555;">
-                            <strong>Categoría:</strong> ${juego.categoria} | <strong>Año:</strong> ${juego.lanzamiento || 'N/A'}
-                        </div>
-                        <p>${juego.descripcion || ''}</p>
-                        <div style="margin-bottom:6px; font-size:11px; color:#333;">
-                            <strong>Instrucciones:</strong> ${juego.notas || ''}
-                        </div>
-                        <div style="display:flex; gap:6px;">
-                            <button class="btn-win" onclick="abrirAvisoDescarga('${juego.download_url}')">💾 Descargar Juego</button>
-                            <button class="btn-win btn-danger" onclick="reportarEnlace('${juego.titulo.replace(/'/g, "\\'")}')">🚨 Reportar Link Caído</button>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
+            alert(`"${tituloRegistro}" eliminado.`);
+            cargarJuegosSupabase(); 
         } catch (err) {
-            console.error('Error al cargar juegos:', err);
-            container.innerHTML = '<p style="padding:10px; color:red;">Error al cargar datos desde Supabase.</p>';
+            alert("Error al eliminar: " + err.message);
         }
     }
 
-    document.addEventListener('DOMContentLoaded', cargarJuegosSupabase);
+    async function editarRegistroAdmin(idRegistro) {
+        if (!supabaseClient) return;
+
+        try {
+            const { data, error } = await supabaseClient
+                .from('juegos')
+                .select('*')
+                .eq('id', idRegistro)
+                .single();
+
+            if (error) throw error;
+
+            if (data) {
+                document.getElementById('adm_tipo').value = data.tipo || 'juego';
+                document.getElementById('adm_id').value = data.id || '';
+                document.getElementById('adm_id').readOnly = true; 
+                document.getElementById('adm_titulo').value = data.titulo || '';
+                document.getElementById('adm_categoria').value = data.categoria || '';
+                document.getElementById('adm_lanzamiento').value = data.lanzamiento || '';
+                document.getElementById('adm_descripcion').value = data.descripcion || '';
+                document.getElementById('adm_notas').value = data.notas || '';
+                document.getElementById('adm_download_url').value = data.download_url || '';
+                document.getElementById('adm_portada_url').value = data.portada_file_id || '';
+
+                mostrarSeccionAdmin('form-juego');
+                switchTab('admin', document.getElementById('btnAdminTab'));
+            }
+        } catch (err) {
+            alert("No se pudo cargar para edición.");
+        }
+    }
+
+    async function guardarAvisoAdmin() {
+        const mensaje = document.getElementById('adm_aviso_texto').value.trim();
+        if (!mensaje) return alert("Escribe un mensaje.");
+
+        try {
+            const { error } = await supabaseClient
+                .from('avisos')
+                .upsert([{ id: 1, mensaje: mensaje, fecha: new Date().toLocaleDateString() }]);
+
+            if (error) throw error;
+
+            alert("¡Aviso actualizado en Inicio!");
+            cargarAvisoInicio();
+        } catch (err) {
+            alert("Error guardando el aviso. Ejecuta primero la consulta SQL en Supabase: " + err.message);
+        }
+    }
+
+    async function cargarAvisoInicio() {
+        const contenedor = document.getElementById('avisoContenido');
+        if (!supabaseClient) return;
+
+        try {
+            const { data, error } = await supabaseClient
+                .from('avisos')
+                .select('*')
+                .eq('id', 1)
+                .single();
+
+            if (data && data.mensaje) {
+                contenedor.innerHTML = `<strong>[${data.fecha || 'Reciente'}]</strong> ${data.mensaje}`;
+            } else {
+                contenedor.innerHTML = "Sin novedades recientes.";
+            }
+        } catch (err) {
+            contenedor.innerHTML = "Bienvenido a GameOnCanaima Retro Vault.";
+        }
+    }
+
+    async function cargarJuegosSupabase() {
+        const gamesContainer = document.getElementById('gamesContainer');
+        const programsContainer = document.getElementById('programsContainer');
+
+        if (!supabaseClient) return;
+
+        try {
+            const { data: registros, error } = await supabaseClient.from('juegos').select('*');
+            if (error) throw error;
+
+            if (registros && registros.length > 0) {
+                let htmlJuegos = '';
+                let htmlProgramas = '';
+
+                registros.forEach(item => {
+                    const imagenSrc = item.portada_file_id || 'https://via.placeholder.com/85?text=No+Cover';
+                    const displayAdmin = esModoAdmin ? 'inline-flex' : 'none';
+                    const tipo = item.tipo || 'juego'; 
+
+                    const cardHTML = `
+                        <div class="game-card" data-titulo="${item.titulo.toLowerCase()}" data-genero="${(item.categoria || '').toLowerCase()}">
+                            <img src="${imagenSrc}" class="game-thumb" alt="${item.titulo}">
+                            <div class="game-info">
+                                <h3 class="game-title">${item.titulo} (${item.lanzamiento || 'N/A'})</h3>
+                                <p style="margin:2px 0;"><strong>Categoría:</strong> ${item.categoria || 'General'}</p>
+                                <p style="margin:2px 0;">${item.descripcion || ''}</p>
+                                ${item.notas ? `<p style="margin:2px 0; font-size:11px; color:#555;"><strong>Notas:</strong> ${item.notas}</p>` : ''}
+                                <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+                                    <button class="btn-win" onclick="abrirAvisoDescarga('${item.download_url}')">💾 Descargar</button>
+                                    <button class="btn-win btn-danger" onclick="reportarEnlace('${item.titulo}')">🚨 Reportar Link</button>
+                                    <button class="btn-win btn-edit admin-only" style="display:${displayAdmin};" onclick="editarRegistroAdmin('${item.id}')">✏️ Editar</button>
+                                    <button class="btn-win btn-danger admin-only" style="display:${displayAdmin};" onclick="eliminarRegistroAdmin('${item.id}', '${item.titulo}')">🗑️ Eliminar</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    if (tipo === 'programa') {
+                        htmlProgramas += cardHTML;
+                    } else {
+                        htmlJuegos += cardHTML;
+                    }
+                });
+
+                if (gamesContainer) gamesContainer.innerHTML = htmlJuegos || '<p style="padding:10px;">No hay juegos cargados aún.</p>';
+                if (programsContainer) programsContainer.innerHTML = htmlProgramas || '<p style="padding:10px;">No hay programas cargados aún.</p>';
+
+            } else {
+                if(gamesContainer) gamesContainer.innerHTML = `<p style="padding:10px;">Sin registros en la base de datos.</p>`;
+                if(programsContainer) programsContainer.innerHTML = `<p style="padding:10px;">Sin programas en la base de datos.</p>`;
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    window.onload = function() {
+        cargarAvisoInicio();
+        cargarJuegosSupabase();
+        cargarComentarios();
+    };
 </script>
 </body>
 </html>
