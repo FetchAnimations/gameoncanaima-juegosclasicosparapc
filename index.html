@@ -1,942 +1,1381 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- Favicon de Windows XP para Navegadores y Google -->
-<link rel="icon" type="image/png" sizes="32x32" href="https://win98icons.alexmeub.com/icons/png/computer_explorer-5.png">
-<link rel="apple-touch-icon" href="https://win98icons.alexmeub.com/icons/png/computer_explorer-5.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameOnCanaima - Retro Vault PC</title>
-    <!-- Supabase JS Client -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>GameOnCanaima - Preservación de Juegos Clásicos</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        * {
-            box-sizing: border-box;
-            font-family: "Tahoma", "Verdana", sans-serif;
-            font-size: 12px;
+        /* CSS Retro Windows XP Luna Styling */
+        :root {
+            --xp-blue-dark: #003399;
+            --xp-blue-main: #0058e6;
+            --xp-blue-light: #3a93ff;
+            --xp-taskbar: #245edb;
+            --xp-bg: #5a7edc;
+            --xp-window-bg: #ece9d8;
+            --xp-border-dark: #716f64;
+            --xp-border-light: #ffffff;
+            --xp-orange: #ff7700;
         }
 
         body {
-            background: #004e92 url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBVr8VJV4aKG_og1KM1lrLOWJ02TYUwCsFGqj_TzITOw&s=10') no-repeat center center fixed;
+            font-family: 'Tahoma', 'Verdana', sans-serif;
+            background-color: #3b62b1;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             background-size: cover;
-            margin: 15px;
-            padding: 0;
+            min-height: 100vh;
             color: #000;
+            user-select: none;
         }
 
-        .window {
-            background: #ece9d8;
+        /* Windows XP Window Style */
+        .xp-window {
+            background-color: var(--xp-window-bg);
             border: 3px solid #0055ea;
-            border-radius: 8px 8px 0 0;
-            max-width: 1050px;
-            margin: 0 auto;
-            box-shadow: 4px 4px 15px rgba(0,0,0,0.6);
-            overflow: hidden;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.4);
         }
 
-        .title-bar {
-            background: linear-gradient(180deg, #0058ee 0%, #3593ff 4%, #288eff 6%, #0055ea 10%, #0055ea 90%, #0040b8 100%);
-            padding: 5px 8px;
+        .xp-titlebar {
+            background: linear-gradient(to bottom, #0058e6 0%, #003bbf 12%, #0055ea 85%, #002d9c 100%);
             color: white;
             font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             text-shadow: 1px 1px 1px #000;
-        }
-
-        .title-bar-controls button {
-            width: 18px;
-            height: 18px;
-            font-size: 10px;
-            background: linear-gradient(180deg, #ece9d8, #d6d2c4);
-            border: 1px solid #002d96;
-            border-radius: 3px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .tabs-bar {
-            background: #ece9d8;
-            padding: 6px 8px 0 8px;
-            border-bottom: 2px solid #0055ea;
+            padding: 4px 8px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
             display: flex;
-            gap: 4px;
-        }
-
-        .tab-btn {
-            background: linear-gradient(180deg, #f0f0f0, #d4d0c8);
-            border: 1px solid #919191;
-            border-bottom: none;
-            border-radius: 4px 4px 0 0;
-            padding: 6px 14px;
-            font-weight: bold;
-            cursor: pointer;
-            color: #000;
-        }
-
-        .tab-btn.active {
-            background: #ffffff;
-            border-color: #0055ea;
-            border-bottom: 2px solid #ffffff;
-            margin-bottom: -2px;
-            color: #0055ea;
-        }
-
-        .toolbar {
-            background: #f1efe2;
-            padding: 6px 10px;
-            border-bottom: 1px solid #b5b5b5;
-            display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
         }
 
-        .search-box {
-            background: #fff;
-            border: 2px inset #7f9db9;
-            padding: 3px 6px;
-            width: 220px;
-        }
-
-        .btn-win {
-            background: linear-gradient(180deg, #ffffff, #ece9d8);
-            border: 1px solid #003c74;
+        .xp-button-close {
+            background: linear-gradient(to bottom, #e76d54 0%, #d83112 50%, #b81700 100%);
+            border: 1px solid #fff;
             border-radius: 3px;
-            padding: 4px 10px;
+            width: 21px;
+            height: 21px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
             font-weight: bold;
+            color: white;
             cursor: pointer;
-            text-decoration: none;
+            box-shadow: inset 1px 1px 0 rgba(255,255,255,0.5);
+        }
+
+        .xp-button-close:hover {
+            filter: brightness(1.2);
+        }
+
+        .xp-btn-std {
+            background: linear-gradient(to bottom, #ffffff 0%, #ece9d8 86%, #d8d4c0 100%);
+            border: 1px solid #7f9db9;
+            border-radius: 3px;
+            padding: 4px 12px;
+            font-size: 12px;
             color: #000;
+            cursor: pointer;
+            box-shadow: 1px 1px 0px #fff inset;
             display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
         }
 
-        .btn-win:hover {
-            background: #fefefe;
-            border-color: #e59700;
+        .xp-btn-std:hover {
+            border-color: #e3a21a;
+            box-shadow: 0 0 3px #e3a21a;
         }
 
-        .btn-danger {
-            background: linear-gradient(180deg, #fff0f0, #ffd6d6);
-            border: 1px solid #a00000;
-            color: #800000;
+        .xp-btn-std:active {
+            background: #dbd8c5;
+            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.3);
         }
 
-        .btn-edit {
-            background: linear-gradient(180deg, #eaf2ff, #cce0ff);
-            border: 1px solid #0055ea;
-            color: #003399;
-        }
-
-        .btn-donate {
-            background: linear-gradient(180deg, #fff8db, #ffe082);
-            border: 1px solid #b78103;
-            color: #5c4000;
-            font-size: 13px;
-            padding: 6px 14px;
-        }
-
-        .main-layout {
-            display: flex;
-            gap: 10px;
-            padding: 10px;
-        }
-
-        .content-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .sidebar {
-            width: 280px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .inset-panel {
-            background: #ffffff;
-            border: 2px inset #7f9db9;
-            padding: 10px;
-            min-height: 400px;
-        }
-
-        .section-header {
-            background: linear-gradient(90deg, #0055ea, #3593ff);
+        .xp-btn-action {
+            background: linear-gradient(to bottom, #ff9429 0%, #e85d00 50%, #c43800 100%);
             color: white;
-            padding: 4px 8px;
+            border: 1px solid #7d2200;
             font-weight: bold;
-            margin-bottom: 10px;
+            text-shadow: 1px 1px 1px #000;
+            border-radius: 4px;
+            padding: 6px 16px;
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .xp-btn-action:hover {
+            filter: brightness(1.1);
+        }
+
+        .xp-input {
+            border: 2px inset #7f9db9;
+            padding: 4px 8px;
+            background: #fff;
+            font-family: inherit;
+            font-size: 12px;
+            outline: none;
+        }
+
+        .xp-input:focus {
+            border-color: #0058e6;
+        }
+
+        /* 3D Game Box Effect */
+        .box-3d-wrapper {
+            perspective: 1000px;
+        }
+
+        .box-3d {
+            width: 220px;
+            height: 300px;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateY(-25deg) rotateX(10deg);
+            transition: transform 0.1s ease-out;
+            margin: auto;
+        }
+
+        .box-3d-face {
+            position: absolute;
+            background-size: cover;
+            background-position: center;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .box-front {
+            width: 220px;
+            height: 300px;
+            transform: translateZ(25px);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
             border-radius: 2px;
         }
 
-        .game-card {
-            border: 1px solid #d4d0c8;
-            background: #fafafa;
-            padding: 8px;
-            margin-bottom: 8px;
+        .box-left {
+            width: 50px;
+            height: 300px;
+            transform: rotateY(-90deg) translateZ(25px);
+            background: #111;
+            color: #fff;
             display: flex;
-            gap: 10px;
-            border-radius: 3px;
+            align-items: center;
+            justify-content: center;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            border-left: 2px solid #444;
         }
 
-        .game-thumb {
-            width: 85px;
-            height: 85px;
-            object-fit: cover;
+        .box-back {
+            width: 220px;
+            height: 300px;
+            transform: rotateY(180deg) translateZ(25px);
+            background: #222;
+        }
+
+        /* Interactive Rating Stars */
+        .star-rating {
+            display: inline-flex;
+            gap: 4px;
+            cursor: pointer;
+        }
+        .star-rating i {
+            font-size: 18px;
+            color: #cbd5e1;
+            transition: color 0.15s;
+        }
+        .star-rating i.hovered, .star-rating i.active {
+            color: #f59e0b;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 14px;
+            height: 14px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ece9d8;
+            border-left: 1px solid #d8d4c0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to right, #ffffff 0%, #ece9d8 86%, #d8d4c0 100%);
             border: 1px solid #7f9db9;
         }
 
-        .game-info {
-            flex: 1;
-        }
-
-        .game-title {
-            font-size: 13px;
-            font-weight: bold;
-            color: #003c74;
-            margin: 0 0 4px 0;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .genre-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-            margin-bottom: 12px;
-        }
-
-        .genre-grid .btn-win {
-            justify-content: center;
-            padding: 6px 4px;
-        }
-
-        .comments-box textarea {
-            width: 100%;
-            height: 55px;
-            border: 2px inset #7f9db9;
-            font-family: inherit;
-            resize: none;
-            margin-bottom: 4px;
-        }
-
-        .comment-item {
-            background: #f9f9f9;
-            border: 1px solid #d4d0c8;
-            padding: 5px;
-            margin-bottom: 5px;
-            border-radius: 2px;
+        .tab-btn {
+            background: #d8d4c0;
+            border: 1px solid #7f9db9;
+            border-bottom: none;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            padding: 4px 12px;
+            cursor: pointer;
             font-size: 11px;
-        }
-
-        .status-bar {
-            background: #ece9d8;
-            border-top: 1px solid #b5b5b5;
-            padding: 3px 6px;
-            display: flex;
-            gap: 10px;
-            font-size: 11px;
-        }
-
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-box {
-            width: 460px;
-            background: #ece9d8;
-            border: 3px solid #0055ea;
-            border-radius: 8px 8px 0 0;
-            box-shadow: 2px 2px 20px rgba(0,0,0,0.8);
-        }
-
-        .form-group {
-            margin-bottom: 8px;
-        }
-
-        .form-group label {
-            display: block;
             font-weight: bold;
-            margin-bottom: 2px;
         }
 
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%;
-            padding: 4px;
-            border: 2px inset #7f9db9;
-        }
-
-        .admin-only {
-            display: none;
+        .tab-btn.active {
+            background: #ece9d8;
+            border-bottom: 2px solid #ece9d8;
+            margin-bottom: -1px;
+            z-index: 10;
         }
     </style>
 </head>
-<body>
+<body class="p-2 md:p-4 pb-16" id="main-body">
 
-<div class="window">
-    <div class="title-bar">
-        <span>💾 GameOnCanaima Retro Vault - Windows XP Edition</span>
-        <div class="title-bar-controls">
-            <button>_</button>
-            <button>□</button>
-            <button style="background:#e81123; color:white;">✕</button>
+    <!-- Top XP Taskbar Header -->
+    <header class="xp-window mb-4 sticky top-0 z-40">
+        <div class="xp-titlebar">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-gamepad text-yellow-300"></i>
+                <span class="text-sm tracking-wide">GameOnCanaima XP - Preservación de Software & Juegos Clásicos</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span id="xp-clock" class="text-xs bg-blue-900 px-2 py-0.5 rounded text-white font-mono">12:00 PM</span>
+                <div class="xp-button-close" title="Cerrar">X</div>
+            </div>
         </div>
-    </div>
-
-    <div class="tabs-bar">
-        <button class="tab-btn active" onclick="switchTab('inicio', this)">🏠 Inicio</button>
-        <button class="tab-btn" onclick="switchTab('juegos', this)">🎮 Juegos Clásicos</button>
-        <button class="tab-btn" onclick="switchTab('programas', this)">💾 Programas / Utilidades</button>
-        <button class="tab-btn" onclick="switchTab('generos', this)">📂 Géneros</button>
-        <button class="tab-btn" id="btnAdminTab" style="display:none; background:#ffeb3b; color:#000;" onclick="switchTab('admin', this)">⚙️ Administración</button>
-    </div>
-
-    <div class="toolbar">
-        <div>
-            <label>🔎 <strong>Buscar:</strong> </label>
-            <input type="text" id="searchInput" class="search-box" placeholder="Título, género o año..." onkeyup="filtrarContenido()">
+        <div class="bg-[#ece9d8] p-2 flex flex-wrap justify-between items-center border-b border-gray-400 gap-2">
+            <div class="flex gap-2">
+                <button onclick="showSection('home')" class="xp-btn-std"><i class="fa-solid fa-house text-blue-600"></i> Inicio</button>
+                <button onclick="scrollToCatalogue()" class="xp-btn-std"><i class="fa-solid fa-list text-green-600"></i> Catálogo</button>
+                <button onclick="openDonateModal()" class="xp-btn-std"><i class="fa-solid fa-mug-hot text-amber-600"></i> Apoyar Proyecto</button>
+            </div>
+            <div class="text-xs text-gray-600 flex items-center gap-1">
+                <i class="fa-solid fa-shield-halved text-blue-500"></i> Optimizado para Canaima & Equipos de Bajos Recursos
+            </div>
         </div>
-        <div>
-            <a href="https://t.me/GameOnCanaimaOFICIAL" target="_blank" class="btn-win">✈️ Canal Telegram</a>
-            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=elvisleonve@gmail.com&su=Contacto%20GameOnCanaima" target="_blank" class="btn-win">✉️ Contactar</a>
-        </div>
-    </div>
+    </header>
 
-    <div class="main-layout">
-        <div class="content-area">
-            <div class="inset-panel">
+    <main class="max-w-7xl mx-auto space-y-6">
+
+        <!-- MAIN HOME SECTION -->
+        <div id="section-home" class="space-y-6">
+            
+            <!-- Hero Window -->
+            <section class="xp-window">
+                <div class="xp-titlebar">
+                    <span><i class="fa-solid fa-desktop mr-1"></i> Bienvenidos a GameOnCanaima</span>
+                    <span class="text-xs">v3.5 Portable Edition</span>
+                </div>
+                <div class="p-4 md:p-6 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                    <div class="md:col-span-2 space-y-3">
+                        <h1 class="text-2xl md:text-3xl font-extrabold text-blue-900 flex items-center gap-2">
+                            <i class="fa-solid fa-compact-disc text-amber-500 animate-spin"></i>
+                            GameOnCanaima
+                        </h1>
+                        <p class="text-sm font-bold text-gray-700 uppercase tracking-wide">Donde los Juegos Clásicos NO MUEREN</p>
+                        <p class="text-xs md:text-sm text-gray-800 leading-relaxed border-l-4 border-blue-600 pl-3 py-1 bg-blue-50">
+                            Iniciativa comunitaria dedicada a la compilación, empaquetado portable y preservación de títulos emblemáticos optimizados para correr con fluidez en computadoras Canaima, Intel Atom, Laptops Escolares y PCs de gama entrada. Sin instalaciones complejas.
+                        </p>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span class="text-xs bg-green-100 text-green-800 border border-green-400 px-2 py-1 rounded-sm"><i class="fa-solid fa-check"></i> 100% Portables</span>
+                            <span class="text-xs bg-blue-100 text-blue-800 border border-blue-400 px-2 py-1 rounded-sm"><i class="fa-solid fa-microchip"></i> Bajo Consumo RAM</span>
+                            <span class="text-xs bg-yellow-100 text-yellow-800 border border-yellow-400 px-2 py-1 rounded-sm"><i class="fa-solid fa-box-archive"></i> Sin Virus / Verificados</span>
+                        </div>
+                    </div>
+                    <div class="bg-gray-100 p-3 border-2 border-gray-400 rounded text-center">
+                        <img id="mascot-img" src="https://picsum.photos/id/237/300/200" alt="Mascota" class="w-full h-36 object-cover border border-gray-300 rounded mb-2">
+                        <p class="text-xs font-bold text-gray-700">Comunidad de Preservación 2026</p>
+                        <p class="text-[11px] text-gray-500">¿Tienes un equipo modesto? ¡Llegaste al lugar correcto!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Game & News Section Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 
-                <!-- INICIO -->
-                <div id="tab-inicio" class="tab-content active">
-                    <div class="section-header">¡BIENVENIDO A GAMEONCANAIMA RETRO VAULT!</div>
-                    <p style="font-size:13px; line-height: 1.5; margin-bottom:10px;">
-                        ¡Hola! Te damos la bienvenida a <strong>GameOnCanaima</strong>, el proyecto dedicado a la preservación, archivo y distribución ligera de videojuegos retro y software de PC.
-                    </p>
+                <!-- Juego Destacado (2 cols) -->
+                <section class="lg:col-span-2 xp-window">
+                    <div class="xp-titlebar">
+                        <span><i class="fa-solid fa-star text-yellow-300 mr-1"></i> Juego Destacado de la Semana</span>
+                    </div>
+                    <div class="p-4 flex flex-col md:flex-row gap-4 items-center">
+                        <img id="featured-img" src="" alt="Juego Destacado" class="w-full md:w-56 h-48 object-cover border-2 border-gray-500 rounded">
+                        <div class="space-y-2 flex-1">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded">RECOMENDADO</span>
+                                <h3 id="featured-title" class="text-lg font-bold text-blue-900">Cargando...</h3>
+                            </div>
+                            <p id="featured-desc" class="text-xs text-gray-700 leading-normal">Cargando detalles...</p>
+                            <div class="grid grid-cols-2 gap-2 text-xs py-1">
+                                <div><strong>Año:</strong> <span id="featured-year">-</span></div>
+                                <div><strong>Peso:</strong> <span id="featured-size">-</span></div>
+                                <div><strong>Categoría:</strong> <span id="featured-cat">-</span></div>
+                                <div><strong>Rating:</strong> <span id="featured-rating" class="text-amber-600 font-bold">-</span></div>
+                            </div>
+                            <button id="featured-btn" onclick="" class="xp-btn-action text-xs mt-2 w-full md:w-auto">
+                                <i class="fa-solid fa-circle-play mr-1"></i> Ver Ficha y Descarga
+                            </button>
+                        </div>
+                    </div>
+                </section>
 
-                    <!-- SECCIÓN DE NOVEDADES Y AVISOS -->
-                    <div style="background:#fff8db; border:2px solid #e59700; padding:10px; margin-bottom:12px; border-radius:3px;">
-                        <h4 style="margin:0 0 6px 0; color:#5c4000; font-size:12px;">📢 NOVEDADES Y AVISOS OFICIALES:</h4>
-                        <div id="avisoContenido" style="font-size:12px; line-height:1.4; color:#333;">
-                            Cargando avisos del sistema...
+                <!-- Noticias & Novedades (1 col) -->
+                <section class="xp-window">
+                    <div class="xp-titlebar">
+                        <span><i class="fa-solid fa-newspaper mr-1"></i> Novedades & Anuncios</span>
+                    </div>
+                    <div class="p-3 space-y-3 max-h-64 overflow-y-auto" id="news-container">
+                        <!-- Dynamic news content -->
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- SEARCH & CATEGORY FILTERS -->
+            <section id="catalogue-section" class="xp-window">
+                <div class="xp-titlebar">
+                    <span><i class="fa-solid fa-magnifying-glass mr-1"></i> Explorador del Catálogo de Juegos</span>
+                </div>
+                <div class="p-4 space-y-4">
+                    
+                    <!-- Search Bar -->
+                    <div class="flex flex-col md:flex-row gap-2">
+                        <input type="text" id="search-input" onkeyup="filterGames()" placeholder="Escribe el nombre del juego..." class="xp-input flex-1 py-1.5 text-sm">
+                        <button onclick="resetFilters()" class="xp-btn-std text-xs">
+                            <i class="fa-solid fa-rotate-left"></i> Restablecer Filtros
+                        </button>
+                    </div>
+
+                    <!-- Genre Grid Buttons -->
+                    <div class="border border-gray-400 p-2 bg-gray-50 rounded">
+                        <div class="text-xs font-bold text-gray-700 mb-2 flex items-center justify-between">
+                            <span><i class="fa-solid fa-filter text-blue-600"></i> Filtrar por Género / Subgénero:</span>
+                            <span id="active-filter-label" class="text-blue-800 italic font-normal">Todos los géneros</span>
+                        </div>
+                        <div class="flex flex-wrap gap-1" id="genre-buttons">
+                            <!-- Populated dynamically via JS -->
                         </div>
                     </div>
 
-                    <div style="background:#fff; border:2px inset #7f9db9; padding:10px; margin-bottom:12px;">
-                        <h4 style="margin:0 0 6px 0; color:#003c74; font-size:12px;">🎯 Objetivo del Proyecto:</h4>
-                        <p style="margin:0; line-height: 1.4;">
-                            Brindar una biblioteca accesible, segura y libre de instaladores engañosos para equipos de bajos recursos y amantes de los clásicos.
+                    <!-- Games Grid (Luna Cards) -->
+                    <div id="games-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 pt-2">
+                        <!-- Dynamic Cards -->
+                    </div>
+
+                    <!-- Empty State Message -->
+                    <div id="no-results" class="hidden p-8 text-center bg-yellow-50 border-2 border-dashed border-yellow-400 rounded space-y-3">
+                        <i class="fa-solid fa-ghost text-4xl text-amber-500"></i>
+                        <h3 class="text-base font-bold text-gray-800">¡Ups! No encontramos ningún juego con esa búsqueda</h3>
+                        <p class="text-xs text-gray-600 max-w-md mx-auto">Si buscas un título clásico específico que aún no está en el catálogo, puedes solicitárnoslo directamente por correo electrónico.</p>
+                        <a id="request-mail-btn" href="mailto:elvisleonve@gmail.com?subject=Solicitud%20de%20Juego%20GameOnCanaima" class="xp-btn-action inline-block text-xs">
+                            <i class="fa-solid fa-envelope mr-1"></i> Crear solicitud de Juego
+                        </a>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- GUESTBOOK / GENERAL COMMENTS -->
+            <section class="xp-window">
+                <div class="xp-titlebar">
+                    <span><i class="fa-solid fa-comments mr-1"></i> Libro de Visitas & Comentarios Generales</span>
+                </div>
+                <div class="p-4 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Form -->
+                    <form id="guestbook-form" onsubmit="addGuestbookComment(event)" class="space-y-3 bg-gray-100 p-3 border border-gray-400 rounded">
+                        <h4 class="text-xs font-bold text-blue-900 border-b border-gray-300 pb-1">Firmar Libro de Visitas</h4>
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-700">Tu Apodo / Nickname:</label>
+                            <input type="text" id="gb-nick" required class="xp-input w-full">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-700">Correo Electrónico (No publicado):</label>
+                            <input type="email" id="gb-email" required class="xp-input w-full">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-700">Mensaje:</label>
+                            <textarea id="gb-msg" rows="3" required class="xp-input w-full resize-none"></textarea>
+                        </div>
+                        <button type="submit" class="xp-btn-std w-full justify-center">
+                            <i class="fa-solid fa-paper-plane text-blue-600"></i> Enviar Comentario
+                        </button>
+                    </form>
+
+                    <!-- Comments List -->
+                    <div class="md:col-span-2 space-y-2 max-h-64 overflow-y-auto p-2 bg-white border border-gray-400 rounded" id="guestbook-list">
+                        <!-- Dynamic list -->
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- GAME DETAIL VIEW (Hidden by default) -->
+        <div id="section-detail" class="hidden space-y-6">
+            <button onclick="showSection('home')" class="xp-btn-std mb-2">
+                <i class="fa-solid fa-arrow-left"></i> Volver al Catálogo Principal
+            </button>
+
+            <div class="xp-window">
+                <div class="xp-titlebar">
+                    <span id="detail-titlebar">Ficha Técnica del Juego</span>
+                    <button onclick="showSection('home')" class="xp-button-close">X</button>
+                </div>
+                <div class="p-4 md:p-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    
+                    <!-- 3D Box Side -->
+                    <div class="flex flex-col items-center justify-center bg-gradient-to-b from-gray-800 to-gray-900 p-6 rounded border border-gray-600">
+                        <div class="box-3d-wrapper py-4" id="box-container">
+                            <div class="box-3d" id="interactive-box">
+                                <div class="box-3d-face box-front" id="box-front-img"></div>
+                                <div class="box-3d-face box-left" id="box-spine-text">GAME ON CANAIMA</div>
+                                <div class="box-3d-face box-back"></div>
+                            </div>
+                        </div>
+                        <p class="text-[11px] text-gray-300 mt-4 text-center">
+                            <i class="fa-solid fa-hand-pointer text-amber-400"></i> Pasa el cursor por la caja para moverla en 3D
                         </p>
                     </div>
 
-                    <div style="text-align:center; padding:10px; background:#fff8e7; border:1px dashed #e59700; border-radius:4px;">
-                        <p style="margin:0 0 8px 0; font-weight:bold;">¿Te gusta nuestro trabajo y quieres apoyar el proyecto?</p>
-                        <a href="#" target="_blank" id="btnDonar" class="btn-win btn-donate" onclick="abrirDonacion(event)">☕ Bríndanos un pan con café</a>
-                    </div>
-                </div>
-
-                <!-- JUEGOS -->
-                <div id="tab-juegos" class="tab-content">
-                    <div class="section-header">CATÁLOGO DE JUEGOS CLÁSICOS</div>
-                    <div id="gamesContainer">
-                        <p style="padding:10px;">Cargando catálogo...</p>
-                    </div>
-                </div>
-
-                <!-- PROGRAMAS -->
-                <div id="tab-programas" class="tab-content">
-                    <div class="section-header">PROGRAMAS Y UTILIDADES RETRO</div>
-                    <div id="programsContainer">
-                        <p style="padding:10px;">Cargando programas y utilidades...</p>
-                    </div>
-                </div>
-
-                <!-- GÉNEROS -->
-                <div id="tab-generos" class="tab-content">
-                    <div class="section-header">EXPLORAR POR GÉNEROS Y SUBGÉNEROS</div>
-                    <div class="genre-grid">
-                        <button class="btn-win" onclick="filtrarPorGenero('fps')">🎯 FPS / Disparos</button>
-                        <button class="btn-win" onclick="filtrarPorGenero('shooter')">🔫 TPS / Shooters</button>
-                        <button class="btn-win" onclick="filtrarPorGenero('hack and slash')">⚔️ Hack and Slash</button>
-                        <button class="btn-win" onclick="filtrarPorGenero('beat em up')">🥊 Beat 'em up</button>
-                        <button class="btn-win" onclick="filtrarPorGenero('plataformas')">🏃 Plataformas 2D/3D</button>
-                        <button class="btn-win" onclick="filtrarPorGenero('shmup')">🚀 Shoot 'em up</button>
-                        <button class="btn-win" onclick="filtrarPorGenero('estrategia')">🏰 Estrategia (RTS/TBS)</button>
-                        <button class="btn-win" onclick="filtrarPorGenero('tower defense')">🛡️ Tower Defense</button>
-                        <button class="btn-win" onclick="filtrarPorGenero('city builder')">🏙️ City Builder</button>
-                        <button class="btn-win" onclick="filtrarPorGenero('rpg')">🛡️ Rol / Action RPG</button>
-                        <button class="btn-win" onclick="filtrarPorGenero('roguelike')">🎲 Roguelike / Lite</button>
-                        <button class="btn-win" onclick="filtrarPorGenero('metroidvania')">🗺️ Metroidvania</button>
-                        <button class="btn-win" onclick="filtrarPorGenero('aventura')">🔍 Aventura Gráfica</button>
-                        <button class="btn-win" onclick="filtrarPorGenero('novela visual')">📖 Novela Visual</button>
-                        <button class="btn-win" onclick="filtrarPorGenero('point and click')">🖱️ Point and Click</button>
-                        <button class="btn-win" onclick="filtrarPorGenero('terror')">👻 Survival Horror</button>
-                        <button class="btn-win" onclick="filtrarPorGenero('carreras')">🏎️ Carreras / Motor</button>
-                        <button class="btn-win" onclick="filtrarPorGenero('simulacion')">✈️ Simulación</button>
-                        <button class="btn-win" onclick="filtrarPorGenero('puzles')">🧩 Puzles / Lógica</button>
-                        <button class="btn-win" onclick="filtrarPorGenero('casual')">🎮 Casual / Arcade</button>
-                        <button class="btn-win" onclick="filtrarPorGenero('lucha')">👊 Lucha / Fighting</button>
-                        <button class="btn-win" onclick="filtrarPorGenero('')" style="grid-column: span 3; background:#d0e4ff;">🔄 Mostrar Todos los Títulos</button>
-                    </div>
-                </div>
-
-                <!-- ADMIN -->
-                <div id="tab-admin" class="tab-content">
-                    <div class="section-header">⚙️ PANEL DE CONTROL DE ADMINISTRACIÓN</div>
-                    <div style="display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap;">
-                        <button class="btn-win" onclick="mostrarSeccionAdmin('form-juego')">➕ Publicar Juego / Programa</button>
-                        <button class="btn-win" onclick="mostrarSeccionAdmin('gestion-avisos')">📢 Publicar Aviso en Inicio</button>
-                        <button class="btn-win" onclick="mostrarSeccionAdmin('gestion-donacion')">💰 Configurar Donaciones</button>
-                    </div>
-
-                    <!-- FORMULARIO JUEGOS/PROGRAMAS -->
-                    <div id="sec-form-juego" style="background:#fff; border:2px inset #7f9db9; padding:10px; margin-bottom:10px;">
-                        <h4 style="margin:0 0 8px 0; color:#003c74;">Publicar / Editar Ficha de Juego o Programa</h4>
-                        <form id="adminGameForm" onsubmit="guardarJuegoAdmin(event)">
-                            <div class="form-group">
-                                <label>Tipo de Entrada:</label>
-                                <select id="adm_tipo">
-                                    <option value="juego">🎮 Videojuego Clásico</option>
-                                    <option value="programa">💾 Programa / Utilidad Retro</option>
-                                </select>
+                    <!-- Metadata & Info Side -->
+                    <div class="lg:col-span-2 space-y-4">
+                        <div class="border-b border-gray-300 pb-2 flex flex-col md:flex-row md:items-center justify-between gap-2">
+                            <div>
+                                <h2 id="detail-title" class="text-2xl font-bold text-blue-900">Game Title</h2>
+                                <p id="detail-genre" class="text-xs text-gray-600 font-semibold">Género / Categoría</p>
                             </div>
-                            <div class="form-group">
-                                <label>ID Único (Ej: isaac-rebirth o daemon-tools):</label>
-                                <input type="text" id="adm_id" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Título:</label>
-                                <input type="text" id="adm_titulo" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Categoría / Géneros:</label>
-                                <input type="text" id="adm_categoria" placeholder="Ej: Roguelike, Acción / Utilidad ISO" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Año / Versión:</label>
-                                <input type="text" id="adm_lanzamiento" placeholder="Ej: 2011 o v4.0">
-                            </div>
-                            <div class="form-group">
-                                <label>Descripción:</label>
-                                <textarea id="adm_descripcion" rows="3"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Notas de Instalación / Uso:</label>
-                                <textarea id="adm_notas" rows="2"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Link de Descarga (MediaFire / Acortador):</label>
-                                <input type="url" id="adm_download_url" required>
-                            </div>
-                            <div class="form-group">
-                                <label>URL de Portada / Imagen:</label>
-                                <input type="url" id="adm_portada_url" placeholder="https://...">
-                            </div>
-                            <div style="display:flex; gap:6px;">
-                                <button type="submit" class="btn-win" style="background:#e1f0ff; flex:1; justify-content:center; padding:6px; margin-top:5px;">💾 Guardar Ficha</button>
-                                <button type="button" class="btn-win" onclick="limpiarFormularioAdmin()" style="padding:6px; margin-top:5px;">🧹 Limpiar</button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <!-- GESTIÓN DE AVISOS -->
-                    <div id="sec-gestion-avisos" style="display:none; background:#fff; border:2px inset #7f9db9; padding:10px;">
-                        <h4 style="margin:0 0 8px 0; color:#003c74;">Publicar Novedades en la Pantalla de Inicio</h4>
-                        <div class="form-group">
-                            <label>Mensaje del Aviso:</label>
-                            <textarea id="adm_aviso_texto" rows="4" placeholder="Escribe el mensaje de novedades..."></textarea>
-                        </div>
-                        <button class="btn-win" onclick="guardarAvisoAdmin()" style="width:100%; justify-content:center; padding:6px;">📢 Actualizar Aviso Principal</button>
-                    </div>
-
-                    <!-- GESTIÓN DE DONACIONES -->
-                    <div id="sec-gestion-donacion" style="display:none; background:#fff; border:2px inset #7f9db9; padding:10px;">
-                        <h4 style="margin:0 0 8px 0; color:#003c74;">Modificar Botón de Donaciones</h4>
-                        <div class="form-group">
-                            <label>Nuevo Enlace de Donación:</label>
-                            <input type="url" id="adm_donacion_url" placeholder="https://...">
-                        </div>
-                        <button class="btn-win" onclick="guardarDonacionAdmin()" style="width:100%; justify-content:center; padding:6px;">🔄 Actualizar Enlace</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="sidebar">
-            <div class="inset-panel" style="min-height:auto;">
-                <div class="section-header">💬 PEDIDOS Y COMENTARIOS</div>
-                <p style="font-size:11px;">¿Buscas un juego? Deja tu mensaje:</p>
-                <div class="comments-box">
-                    <input type="text" id="commentUser" class="search-box" style="width:100%; margin-bottom:4px;" placeholder="Tu Nick...">
-                    <textarea id="commentText" placeholder="Escribe tu pedido..."></textarea>
-                    <button class="btn-win" style="width:100%; justify-content:center;" onclick="enviarComentario()">Enviar Pedido</button>
-                </div>
-
-                <div style="margin-top:10px; border-top:1px solid #d4d0c8; padding-top:6px;">
-                    <strong style="font-size:11px; color:#003c74;">Últimos Pedidos:</strong>
-                    <div id="commentsList" style="margin-top:6px; max-height:180px; overflow-y:auto;">
-                        <p style="font-size:10px; color:#777;">Cargando pedidos...</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="status-bar">
-        <span>Sistema: Windows XP Luna Style</span>
-        <span style="flex:1; text-align:right;">Estado: En línea</span>
-    </div>
-</div>
-
-<!-- VENTANA MODAL DE DESCARGA -->
-<div id="downloadModal" class="modal-overlay">
-    <div class="modal-box">
-        <div class="title-bar">
-            <span>ℹ️ Información Importante de Descarga</span>
-            <button onclick="cerrarModal()" style="border:none; background:transparent; color:white; cursor:pointer; font-weight:bold;">✕</button>
-        </div>
-        <div style="padding:12px;">
-            <p style="margin-top:0; font-weight:bold; color:#003c74;">¡Gracias por descargar desde GameOnCanaima!</p>
-            <p style="margin-bottom:8px;">Para mantener el servidor activo, serás redirigido a un acortador antes del enlace oficial de <strong>MediaFire</strong>.</p>
-            
-            <div style="background:#fff0f0; border:1px solid #d9534f; padding:8px; font-size:11px; margin-bottom:10px;">
-                ⚠️ <strong>AVISO DE SEGURIDAD OBLIGATORIO:</strong>
-                <ul style="margin:4px 0 0 0; padding-left:18px;">
-                    <li>Todos nuestros archivos oficiales terminan en <strong>"GameOnCanaima By_Fetch"</strong>.</li>
-                    <li>Cualquier archivo descargado que pese únicamente unos pocos <strong>KBs NO es el juego real</strong>.</li>
-                </ul>
-            </div>
-
-            <div style="text-align:right; margin-top:12px; display:flex; justify-content:flex-end; gap:6px;">
-                <button class="btn-win" id="btnContinuarDescarga">Continuar a Descarga ➔</button>
-                <button class="btn-win" onclick="cerrarModal()">Cancelar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    let urlDescargaActual = "";
-    let donacionUrlActual = "#";
-    let supabaseClient = null;
-    let esModoAdmin = false;
-
-    try {
-        const SUPABASE_URL = "https://rxzelhiyaqyzneztpwdw.supabase.co";
-        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4emVsaGl5YXF5em5lenRwd2R3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwODUyNzgsImV4cCI6MjEwNDY2MTI3OH0.te_ZkJ9FJ1wVV01dYQ4LeXWVJvUnaiHCMOYhISNMYSs";
-        if (window.supabase) {
-            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        }
-    } catch(e) {
-        console.warn("Error con Supabase:", e);
-    }
-
-    function switchTab(tabId, element) {
-        let contents = document.getElementsByClassName('tab-content');
-        for (let i = 0; i < contents.length; i++) contents[i].classList.remove('active');
-
-        let tabs = document.getElementsByClassName('tab-btn');
-        for (let i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
-
-        const targetTab = document.getElementById('tab-' + tabId);
-        if (targetTab) targetTab.classList.add('active');
-        if (element) element.classList.add('active');
-    }
-
-    function filtrarContenido() {
-        let input = document.getElementById('searchInput').value.toLowerCase();
-        let cards = document.getElementsByClassName('game-card');
-
-        for (let i = 0; i < cards.length; i++) {
-            let title = cards[i].getAttribute('data-titulo') || "";
-            let genero = cards[i].getAttribute('data-genero') || "";
-
-            if (title.includes(input) || genero.includes(input)) {
-                cards[i].style.display = "flex";
-            } else {
-                cards[i].style.display = "none";
-            }
-        }
-    }
-
-    function filtrarPorGenero(genero) {
-        switchTab('juegos', document.querySelectorAll('.tab-btn')[1]);
-        document.getElementById('searchInput').value = genero;
-        filtrarContenido();
-    }
-
-    function abrirAvisoDescarga(urlMediafire) {
-        urlDescargaActual = urlMediafire; 
-        document.getElementById('downloadModal').style.display = 'flex';
-    }
-
-    function cerrarModal() {
-        document.getElementById('downloadModal').style.display = 'none';
-    }
-
-    document.getElementById('btnContinuarDescarga').onclick = function() {
-        if(urlDescargaActual) window.open(urlDescargaActual, '_blank');
-        cerrarModal();
-    };
-
-    function reportarEnlace(tituloJuego) {
-        const correo = "elvisleonve@gmail.com";
-        const asunto = encodeURIComponent("🚨 Link Caído - " + tituloJuego);
-        const cuerpo = encodeURIComponent("Hola Elvis,\n\nNotifico que el enlace de " + tituloJuego + " está caído.");
-        window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${correo}&su=${asunto}&body=${cuerpo}`, '_blank');
-    }
-
-    function abrirDonacion(e) {
-        if (donacionUrlActual === '#') {
-            e.preventDefault();
-            alert('¡Enlace de donaciones en configuración!');
-        } else {
-            window.open(donacionUrlActual, '_blank');
-        }
-    }
-
-    // ENVÍO Y GUARDADO REAL DE COMENTARIOS EN SUPABASE
-    async function enviarComentario() {
-        let nick = document.getElementById('commentUser').value.trim();
-        let msg = document.getElementById('commentText').value.trim();
-
-        if(!nick || !msg) {
-            alert("Por favor completa tu Nick y el Pedido.");
-            return;
-        }
-
-        if(!supabaseClient) {
-            alert("Error al conectar con la base de datos.");
-            return;
-        }
-
-        try {
-            const { error } = await supabaseClient
-                .from('comentarios')
-                .insert([{ nick: nick, mensaje: msg }]);
-
-            if (error) throw error;
-
-            alert("¡Gracias " + nick + "! Tu pedido ha sido guardado.");
-            document.getElementById('commentText').value = "";
-            cargarComentarios();
-        } catch (err) {
-            console.error("Error al guardar comentario:", err);
-            alert("No se pudo publicar el pedido. Recuerda ejecutar la consulta SQL en Supabase.");
-        }
-    }
-
-    async function cargarComentarios() {
-        const box = document.getElementById('commentsList');
-        if(!supabaseClient) return;
-
-        try {
-            const { data, error } = await supabaseClient
-                .from('comentarios')
-                .select('*')
-                .order('created_at', { ascending: false })
-                .limit(5);
-
-            if(error) throw error;
-
-            if(data && data.length > 0) {
-                let html = '';
-                data.forEach(c => {
-                    html += `
-                        <div class="comment-item">
-                            <strong>${c.nick}:</strong> ${c.mensaje}
-                        </div>
-                    `;
-                });
-                box.innerHTML = html;
-            } else {
-                box.innerHTML = '<p style="font-size:10px; color:#777;">No hay pedidos recientes.</p>';
-            }
-        } catch(err) {
-            box.innerHTML = '<p style="font-size:10px; color:#777;">Aún no hay mensajes.</p>';
-        }
-    }
-
-    // MODO ADMIN ("gameoncanaima")
-    let bufferTeclado = "";
-    const CLAVE_SECRETA = "gameoncanaima";
-
-    document.addEventListener("keydown", (e) => {
-        if (["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)) return;
-
-        if (e.key && e.key.length === 1) {
-            bufferTeclado += e.key.toLowerCase();
-            if (bufferTeclado.length > CLAVE_SECRETA.length) {
-                bufferTeclado = bufferTeclado.slice(-CLAVE_SECRETA.length);
-            }
-
-            if (bufferTeclado === CLAVE_SECRETA) {
-                bufferTeclado = "";
-                abrirLoginWindowsXP();
-            }
-        }
-    });
-
-    function abrirLoginWindowsXP() {
-        if (document.getElementById("xp-login-screen")) return;
-
-        const modalXP = document.createElement("div");
-        modalXP.id = "xp-login-screen";
-        modalXP.style.cssText = `
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 51, 153, 0.85); display: flex; align-items: center; justify-content: center;
-            z-index: 99999; font-family: 'Tahoma', sans-serif; color: white;
-        `;
-
-        modalXP.innerHTML = `
-            <div style="background: #ece9d8; border: 3px solid #0055ea; border-radius: 8px 8px 0 0; width: 380px; box-shadow: 0 10px 25px rgba(0,0,0,0.6); color: #000;">
-                <div class="title-bar">
-                    <span>🔑 Windows XP - Administración</span>
-                </div>
-                <div style="padding: 15px; text-align: center;">
-                    <p style="font-size: 12px; margin-bottom: 12px; font-weight:bold; color:#003c74;">Ingrese la clave de administrador:</p>
-                    <input type="password" id="xp-pass-input" class="search-box" style="width: 80%; margin-bottom: 15px; text-align:center;">
-                    <br>
-                    <button id="xp-btn-login" class="btn-win">Aceptar</button>
-                    <button id="xp-btn-cancel" class="btn-win">Cancelar</button>
-                </div>
-            </div>
-        `;
-
-        document.body.appendChild(modalXP);
-        document.getElementById("xp-pass-input").focus();
-
-        document.getElementById("xp-btn-cancel").onclick = () => modalXP.remove();
-        document.getElementById("xp-btn-login").onclick = procesarLogin;
-        document.getElementById("xp-pass-input").onkeyup = (e) => { if (e.key === 'Enter') procesarLogin(); };
-
-        function procesarLogin() {
-            const pass = document.getElementById("xp-pass-input").value.toLowerCase();
-            if (pass === "gameoncanaima") {
-                alert("¡Acceso concedido!");
-                modalXP.remove();
-                desbloquearModoAdmin();
-            } else {
-                alert("Contraseña incorrecta.");
-            }
-        }
-    }
-
-    function desbloquearModoAdmin() {
-        esModoAdmin = true;
-        const btnTab = document.getElementById('btnAdminTab');
-        btnTab.style.display = 'inline-block';
-        
-        const elementosAdmin = document.querySelectorAll('.admin-only');
-        elementosAdmin.forEach(el => el.style.display = 'inline-flex');
-
-        switchTab('admin', btnTab);
-    }
-
-    function mostrarSeccionAdmin(sec) {
-        document.getElementById('sec-form-juego').style.display = (sec === 'form-juego') ? 'block' : 'none';
-        document.getElementById('sec-gestion-avisos').style.display = (sec === 'gestion-avisos') ? 'block' : 'none';
-        document.getElementById('sec-gestion-donacion').style.display = (sec === 'gestion-donacion') ? 'block' : 'none';
-    }
-
-    function limpiarFormularioAdmin() {
-        document.getElementById('adminGameForm').reset();
-        document.getElementById('adm_id').readOnly = false;
-    }
-
-    async function guardarJuegoAdmin(e) {
-        e.preventDefault();
-
-        if (!supabaseClient) return alert("Error: Supabase no disponible.");
-
-        const tipoSeleccionado = document.getElementById('adm_tipo').value;
-        const nuevoRegistro = {
-            id: document.getElementById('adm_id').value.trim(),
-            titulo: document.getElementById('adm_titulo').value.trim(),
-            categoria: document.getElementById('adm_categoria').value.trim(),
-            lanzamiento: document.getElementById('adm_lanzamiento').value.trim(),
-            descripcion: document.getElementById('adm_descripcion').value.trim(),
-            notas: document.getElementById('adm_notas').value.trim(),
-            download_url: document.getElementById('adm_download_url').value.trim(),
-            portada_file_id: document.getElementById('adm_portada_url').value.trim(),
-            tipo: tipoSeleccionado
-        };
-
-        try {
-            const { error } = await supabaseClient.from('juegos').upsert([nuevoRegistro]);
-            if (error) throw error;
-
-            alert(`¡Ficha de ${tipoSeleccionado} guardada con éxito!`);
-            limpiarFormularioAdmin();
-            cargarJuegosSupabase(); 
-        } catch (err) {
-            alert("Error al guardar: " + err.message);
-        }
-    }
-
-    async function eliminarRegistroAdmin(idRegistro, tituloRegistro) {
-        if (!confirm(`¿Eliminar "${tituloRegistro}"?`)) return;
-        if (!supabaseClient) return;
-
-        try {
-            const { error } = await supabaseClient.from('juegos').delete().eq('id', idRegistro);
-            if (error) throw error;
-
-            alert(`"${tituloRegistro}" eliminado.`);
-            cargarJuegosSupabase(); 
-        } catch (err) {
-            alert("Error al eliminar: " + err.message);
-        }
-    }
-
-    async function editarRegistroAdmin(idRegistro) {
-        if (!supabaseClient) return;
-
-        try {
-            const { data, error } = await supabaseClient
-                .from('juegos')
-                .select('*')
-                .eq('id', idRegistro)
-                .single();
-
-            if (error) throw error;
-
-            if (data) {
-                document.getElementById('adm_tipo').value = data.tipo || 'juego';
-                document.getElementById('adm_id').value = data.id || '';
-                document.getElementById('adm_id').readOnly = true; 
-                document.getElementById('adm_titulo').value = data.titulo || '';
-                document.getElementById('adm_categoria').value = data.categoria || '';
-                document.getElementById('adm_lanzamiento').value = data.lanzamiento || '';
-                document.getElementById('adm_descripcion').value = data.descripcion || '';
-                document.getElementById('adm_notas').value = data.notas || '';
-                document.getElementById('adm_download_url').value = data.download_url || '';
-                document.getElementById('adm_portada_url').value = data.portada_file_id || '';
-
-                mostrarSeccionAdmin('form-juego');
-                switchTab('admin', document.getElementById('btnAdminTab'));
-            }
-        } catch (err) {
-            alert("No se pudo cargar para edición.");
-        }
-    }
-
-    async function guardarAvisoAdmin() {
-        const mensaje = document.getElementById('adm_aviso_texto').value.trim();
-        if (!mensaje) return alert("Escribe un mensaje.");
-
-        try {
-            const { error } = await supabaseClient
-                .from('avisos')
-                .upsert([{ id: 1, mensaje: mensaje, fecha: new Date().toLocaleDateString() }]);
-
-            if (error) throw error;
-
-            alert("¡Aviso actualizado en Inicio!");
-            cargarAvisoInicio();
-        } catch (err) {
-            alert("Error guardando el aviso. Ejecuta primero la consulta SQL en Supabase: " + err.message);
-        }
-    }
-
-    async function cargarAvisoInicio() {
-        const contenedor = document.getElementById('avisoContenido');
-        if (!supabaseClient) return;
-
-        try {
-            const { data, error } = await supabaseClient
-                .from('avisos')
-                .select('*')
-                .eq('id', 1)
-                .single();
-
-            if (data && data.mensaje) {
-                contenedor.innerHTML = `<strong>[${data.fecha || 'Reciente'}]</strong> ${data.mensaje}`;
-            } else {
-                contenedor.innerHTML = "Sin novedades recientes.";
-            }
-        } catch (err) {
-            contenedor.innerHTML = "Bienvenido a GameOnCanaima Retro Vault.";
-        }
-    }
-
-    async function cargarJuegosSupabase() {
-        const gamesContainer = document.getElementById('gamesContainer');
-        const programsContainer = document.getElementById('programsContainer');
-
-        if (!supabaseClient) return;
-
-        try {
-            const { data: registros, error } = await supabaseClient.from('juegos').select('*');
-            if (error) throw error;
-
-            if (registros && registros.length > 0) {
-                let htmlJuegos = '';
-                let htmlProgramas = '';
-
-                registros.forEach(item => {
-                    const imagenSrc = item.portada_file_id || 'https://via.placeholder.com/85?text=No+Cover';
-                    const displayAdmin = esModoAdmin ? 'inline-flex' : 'none';
-                    const tipo = item.tipo || 'juego'; 
-
-                    const cardHTML = `
-                        <div class="game-card" data-titulo="${item.titulo.toLowerCase()}" data-genero="${(item.categoria || '').toLowerCase()}">
-                            <img src="${imagenSrc}" class="game-thumb" alt="${item.titulo}">
-                            <div class="game-info">
-                                <h3 class="game-title">${item.titulo} (${item.lanzamiento || 'N/A'})</h3>
-                                <p style="margin:2px 0;"><strong>Categoría:</strong> ${item.categoria || 'General'}</p>
-                                <p style="margin:2px 0;">${item.descripcion || ''}</p>
-                                ${item.notas ? `<p style="margin:2px 0; font-size:11px; color:#555;"><strong>Notas:</strong> ${item.notas}</p>` : ''}
-                                <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
-                                    <button class="btn-win" onclick="abrirAvisoDescarga('${item.download_url}')">💾 Descargar</button>
-                                    <button class="btn-win btn-danger" onclick="reportarEnlace('${item.titulo}')">🚨 Reportar Link</button>
-                                    <button class="btn-win btn-edit admin-only" style="display:${displayAdmin};" onclick="editarRegistroAdmin('${item.id}')">✏️ Editar</button>
-                                    <button class="btn-win btn-danger admin-only" style="display:${displayAdmin};" onclick="eliminarRegistroAdmin('${item.id}', '${item.titulo}')">🗑️ Eliminar</button>
+                            
+                            <!-- INTERACTIVE RATING STARS -->
+                            <div class="bg-amber-50 border border-amber-200 p-2 rounded flex flex-col items-end">
+                                <span class="text-[10px] text-amber-900 font-bold">¡Califica este juego!</span>
+                                <div class="star-rating" id="user-star-rating">
+                                    <i class="fa-solid fa-star" data-value="1"></i>
+                                    <i class="fa-solid fa-star" data-value="2"></i>
+                                    <i class="fa-solid fa-star" data-value="3"></i>
+                                    <i class="fa-solid fa-star" data-value="4"></i>
+                                    <i class="fa-solid fa-star" data-value="5"></i>
                                 </div>
                             </div>
                         </div>
-                    `;
 
-                    if (tipo === 'programa') {
-                        htmlProgramas += cardHTML;
-                    } else {
-                        htmlJuegos += cardHTML;
-                    }
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-blue-50 p-3 border border-blue-200 rounded text-xs">
+                            <div><span class="text-gray-500 block">Año:</span> <strong id="detail-year">-</strong></div>
+                            <div><span class="text-gray-500 block">Tamaño:</span> <strong id="detail-size">-</strong></div>
+                            <div><span class="text-gray-500 block">Rating Promedio:</span> <strong id="detail-rating" class="text-amber-600">-</strong></div>
+                            <div><span class="text-gray-500 block">Descargas:</span> <strong id="detail-downloads" class="text-green-700">0</strong></div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-800 uppercase border-b border-gray-200 mb-1">Descripción:</h4>
+                            <p id="detail-desc" class="text-xs text-gray-700 leading-relaxed">...</p>
+                        </div>
+
+                        <!-- DYNAMIC REQUIREMENTS -->
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-800 uppercase border-b border-gray-200 mb-1">Requisitos Mínimos:</h4>
+                            <ul class="text-xs text-gray-700 list-disc list-inside space-y-0.5 bg-gray-50 p-2 border border-gray-200 rounded">
+                                <li><strong>Procesador:</strong> <span id="req-cpu">Intel Atom N270 / Pentium 4 a 1.6 GHz o superior.</span></li>
+                                <li><strong>Memoria RAM:</strong> <span id="req-ram">512 MB - 1 GB.</span></li>
+                                <li><strong>Gráficos:</strong> <span id="req-gpu">Integrados Intel GMA 950 / 3150 o aceleración DirectX 9.0c.</span></li>
+                                <li><strong>Sistema Operativo:</strong> <span id="req-os">Windows XP / 7 / 10 / Canaima GNU Linux (Wine).</span></li>
+                            </ul>
+                        </div>
+
+                        <!-- Screenshots -->
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-800 uppercase border-b border-gray-200 mb-2">Capturas de Pantalla:</h4>
+                            <div id="detail-screenshots" class="grid grid-cols-3 gap-2">
+                                <!-- Screenshots loaded dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Download CTA -->
+                        <div class="pt-2">
+                            <button id="download-trigger-btn" onclick="openDownloadModal()" class="xp-btn-action text-sm w-full py-3 flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-download text-lg"></i> Descargar Portable Directo
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Game Specific Comments -->
+                <div class="border-t border-gray-300 p-4 bg-gray-50">
+                    <h3 class="text-sm font-bold text-gray-800 mb-3"><i class="fa-solid fa-comments text-blue-600"></i> Comentarios sobre este Juego</h3>
+                    
+                    <form onsubmit="addGameComment(event)" class="flex gap-2 mb-4">
+                        <input type="text" id="game-comment-input" required placeholder="Escribe tu duda o reseña de este título..." class="xp-input flex-1">
+                        <button type="submit" class="xp-btn-std text-xs">Comentar</button>
+                    </form>
+
+                    <div id="game-comments-list" class="space-y-2 max-h-48 overflow-y-auto">
+                        <!-- Dynamic comments -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FLOATING TELEGRAM BUTTON -->
+    <a href="https://t.me/GameOnCanaimaOFICIAL" target="_blank" rel="noopener" class="fixed bottom-4 left-4 z-50 bg-[#0088cc] text-white p-3 rounded-full shadow-lg hover:scale-105 transition-transform flex items-center gap-2 border-2 border-white">
+        <i class="fa-brands fa-telegram text-2xl"></i>
+        <span class="text-xs font-bold hidden sm:inline">Comunidad Telegram</span>
+        <span class="bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-white">1</span>
+    </a>
+
+    <!-- MODAL DISCLAIMER SHORTENER -->
+    <div id="modal-disclaimer" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+        <div class="xp-window max-w-md w-full">
+            <div class="xp-titlebar">
+                <span><i class="fa-solid fa-triangle-exclamation text-yellow-300 mr-1"></i> Aviso de Redirección - GameOnCanaima</span>
+                <button onclick="closeModal('modal-disclaimer')" class="xp-button-close">X</button>
+            </div>
+            <div class="p-4 space-y-3 bg-[#ece9d8] text-xs text-gray-800">
+                <div class="flex items-start gap-3 bg-white p-3 border border-gray-400 rounded">
+                    <i class="fa-solid fa-circle-info text-2xl text-blue-600 flex-shrink-0 mt-1"></i>
+                    <p>Serás redirigido a través de un enlace acortado publicitario para financiar los servidores y mantener vivo el proyecto.</p>
+                </div>
+                
+                <div class="bg-yellow-50 border border-yellow-400 p-2 rounded space-y-1">
+                    <p class="font-bold text-yellow-900">Recomendaciones de Seguridad:</p>
+                    <ul class="list-disc list-inside space-y-0.5 text-[11px] text-yellow-800">
+                        <li>Verifica el peso del archivo al iniciar la descarga.</li>
+                        <li>Los archivos <strong>NO</strong> llevan contraseña.</li>
+                        <li>Incluyen el sello de verificación GameOnCanaima.</li>
+                    </ul>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-2 border-t border-gray-300">
+                    <button onclick="closeModal('modal-disclaimer')" class="xp-btn-std">Cancelar</button>
+                    <button onclick="confirmDownload()" class="xp-btn-action text-xs"><i class="fa-solid fa-up-right-from-square mr-1"></i> Entendido y Continuar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DONATIONS -->
+    <div id="modal-donate" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+        <div class="xp-window max-w-md w-full">
+            <div class="xp-titlebar">
+                <span><i class="fa-solid fa-heart text-red-400 mr-1"></i> "Epale manin date pal freco' 🥤"</span>
+                <button onclick="closeModal('modal-donate')" class="xp-button-close">X</button>
+            </div>
+            <div class="p-4 space-y-3 bg-[#ece9d8] text-xs">
+                <p class="text-gray-800">Si te sirven los juegos y te gusta el proyecto de preservación, puedes apoyarnos voluntariamente para pagar el servidor:</p>
+                
+                <div id="donations-list" class="space-y-2 bg-white p-3 border border-gray-400 rounded">
+                    <!-- Populated dynamically -->
+                </div>
+
+                <div class="text-center pt-2">
+                    <button onclick="closeModal('modal-donate')" class="xp-btn-std">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL SECRET ADMIN AUTH -->
+    <div id="modal-admin-auth" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4">
+        <div class="xp-window max-w-xs w-full">
+            <div class="xp-titlebar">
+                <span><i class="fa-solid fa-lock text-yellow-300 mr-1"></i> Control de Acceso</span>
+                <button onclick="closeModal('modal-admin-auth')" class="xp-button-close">X</button>
+            </div>
+            <form onsubmit="verifyAdminPass(event)" class="p-4 space-y-3 bg-[#ece9d8] text-xs">
+                <label class="block font-bold text-gray-800">¿Quien eres?</label>
+                <input type="password" id="admin-pass-input" required class="xp-input w-full" placeholder="Ingresa clave...">
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="closeModal('modal-admin-auth')" class="xp-btn-std">Cancelar</button>
+                    <button type="submit" class="xp-btn-std font-bold text-blue-900">Acceder</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL ADMIN CONTROL PANEL -->
+    <div id="modal-admin-panel" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-2 md:p-4">
+        <div class="xp-window max-w-4xl w-full max-h-[90vh] flex flex-col">
+            <div class="xp-titlebar">
+                <span><i class="fa-solid fa-user-gear text-yellow-300 mr-1"></i> Panel de Administración - GameOnCanaima</span>
+                <button onclick="closeModal('modal-admin-panel')" class="xp-button-close">X</button>
+            </div>
+            
+            <!-- Tabs -->
+            <div class="flex border-b border-gray-400 bg-gray-200 px-2 pt-2 gap-1 text-xs">
+                <button onclick="switchAdminTab('games')" id="tab-btn-games" class="tab-btn active">Gestionar Juegos</button>
+                <button onclick="switchAdminTab('hero')" id="tab-btn-hero" class="tab-btn">Ajustes Inicio / Perringo / Fondo</button>
+                <button onclick="switchAdminTab('news')" id="tab-btn-news" class="tab-btn">Gestionar Noticias</button>
+                <button onclick="switchAdminTab('donate')" id="tab-btn-donate" class="tab-btn">Métodos Donación</button>
+            </div>
+
+            <!-- Tab Content Area -->
+            <div class="p-4 bg-[#ece9d8] overflow-y-auto flex-1 space-y-4">
+                
+                <!-- TAB GAMES -->
+                <div id="admin-tab-games" class="space-y-4">
+                    <form onsubmit="saveGame(event)" class="bg-white p-3 border border-gray-400 rounded grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                        <input type="hidden" id="admin-game-id">
+                        <div>
+                            <label class="block font-bold">Título del Juego:</label>
+                            <input type="text" id="admin-game-title" required class="xp-input w-full">
+                        </div>
+                        <div>
+                            <label class="block font-bold">Categoría / Género:</label>
+                            <select id="admin-game-cat" class="xp-input w-full">
+                                <!-- Options populated by script -->
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-bold">Año:</label>
+                            <input type="number" id="admin-game-year" required class="xp-input w-full" value="2005">
+                        </div>
+                        <div>
+                            <label class="block font-bold">Peso del archivo (ej: 600 MB):</label>
+                            <input type="text" id="admin-game-size" required class="xp-input w-full">
+                        </div>
+                        <div>
+                            <label class="block font-bold">URL Imagen Portada:</label>
+                            <input type="url" id="admin-game-img" required class="xp-input w-full">
+                        </div>
+                        <div>
+                            <label class="block font-bold">URL Enlace de Descarga:</label>
+                            <input type="url" id="admin-game-link" required class="xp-input w-full">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block font-bold">URLs Capturas (separadas por coma):</label>
+                            <input type="text" id="admin-game-shots" class="xp-input w-full" placeholder="https://..., https://...">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block font-bold">Descripción:</label>
+                            <textarea id="admin-game-desc" rows="2" class="xp-input w-full resize-none"></textarea>
+                        </div>
+
+                        <!-- EDITABLE REQUIREMENTS FIELDS -->
+                        <div class="md:col-span-2 bg-blue-50 border border-blue-300 p-2 rounded space-y-2">
+                            <label class="block font-bold text-blue-900"><i class="fa-solid fa-microchip"></i> Requisitos Mínimos Editables:</label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-[11px]">Procesador:</label>
+                                    <input type="text" id="admin-game-cpu" class="xp-input w-full" placeholder="Ej: Intel Atom N270 a 1.6 GHz">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px]">Memoria RAM:</label>
+                                    <input type="text" id="admin-game-ram" class="xp-input w-full" placeholder="Ej: 512 MB - 1 GB">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px]">Gráficos:</label>
+                                    <input type="text" id="admin-game-gpu" class="xp-input w-full" placeholder="Ej: Intel GMA 950 / DirectX 9">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px]">Sistema Operativo:</label>
+                                    <input type="text" id="admin-game-os" class="xp-input w-full" placeholder="Ej: Windows XP / 7 / Linux Wine">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="md:col-span-2 flex justify-end gap-2">
+                            <button type="button" onclick="resetGameForm()" class="xp-btn-std">Limpiar</button>
+                            <button type="submit" class="xp-btn-action text-xs"><i class="fa-solid fa-cloud-arrow-up mr-1"></i> Publicar en la Nube</button>
+                        </div>
+                    </form>
+
+                    <!-- Games List Table -->
+                    <div class="bg-white border border-gray-400 rounded overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead class="bg-blue-900 text-white">
+                                <tr>
+                                    <th class="p-2">Portada</th>
+                                    <th class="p-2">Título</th>
+                                    <th class="p-2">Género</th>
+                                    <th class="p-2">Peso</th>
+                                    <th class="p-2 text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-games-list" class="divide-y divide-gray-200">
+                                <!-- Dynamic list -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB HERO / PERRINGO / FONDO -->
+                <div id="admin-tab-hero" class="hidden space-y-4">
+                    <form onsubmit="saveHeroSettings(event)" class="bg-white p-3 border border-gray-400 rounded space-y-3 text-xs">
+                        <h4 class="font-bold text-blue-900 border-b pb-1">Ajustes Visuales (Mascota Perringo & Fondo)</h4>
+                        
+                        <div>
+                            <label class="block font-bold">URL Imagen Mascota "Perringo":</label>
+                            <input type="url" id="admin-hero-mascot" required class="xp-input w-full" placeholder="https://...">
+                        </div>
+
+                        <div>
+                            <label class="block font-bold">URL Imagen Fondo de Pantalla (Background):</label>
+                            <input type="url" id="admin-hero-bg" required class="xp-input w-full" placeholder="https://...">
+                        </div>
+
+                        <button type="submit" class="xp-btn-action text-xs"><i class="fa-solid fa-floppy-disk mr-1"></i> Guardar Ajustes Visuales</button>
+                    </form>
+                </div>
+
+                <!-- TAB NEWS -->
+                <div id="admin-tab-news" class="hidden space-y-4">
+                    <form onsubmit="addNews(event)" class="bg-white p-3 border border-gray-400 rounded space-y-2 text-xs">
+                        <div>
+                            <label class="block font-bold">Título de la Noticia:</label>
+                            <input type="text" id="admin-news-title" required class="xp-input w-full">
+                        </div>
+                        <div>
+                            <label class="block font-bold">Contenido:</label>
+                            <textarea id="admin-news-desc" rows="2" required class="xp-input w-full resize-none"></textarea>
+                        </div>
+                        <button type="submit" class="xp-btn-action text-xs"><i class="fa-solid fa-plus mr-1"></i> Publicar Noticia</button>
+                    </form>
+
+                    <div id="admin-news-list" class="space-y-2">
+                        <!-- News items with delete -->
+                    </div>
+                </div>
+
+                <!-- TAB DONATE -->
+                <div id="admin-tab-donate" class="hidden space-y-4">
+                    <form onsubmit="addDonateOption(event)" class="bg-white p-3 border border-gray-400 rounded space-y-2 text-xs">
+                        <div>
+                            <label class="block font-bold">Método (ej: Pago Móvil, Binance Pay, PayPal):</label>
+                            <input type="text" id="admin-don-method" required class="xp-input w-full">
+                        </div>
+                        <div>
+                            <label class="block font-bold">Datos de Transferencia:</label>
+                            <input type="text" id="admin-don-details" required class="xp-input w-full">
+                        </div>
+                        <button type="submit" class="xp-btn-action text-xs"><i class="fa-solid fa-plus mr-1"></i> Agregar Método</button>
+                    </form>
+
+                    <div id="admin-donate-list" class="space-y-2">
+                        <!-- Donation items -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- FIREBASE SDK & JAVASCRIPT LOGIC -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, onValue, set, push, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // FIREBASE CONFIGURATION (FROM YOUR PROJECT SCREENSHOT)
+        const firebaseConfig = {
+            apiKey: "AIzaSyBM6Fv__JX71dEn0BpvrEBH_giCaV1_b8o",
+            authDomain: "gameoncanaima.firebaseapp.com",
+            projectId: "gameoncanaima",
+            storageBucket: "gameoncanaima.firebasestorage.app",
+            messagingSenderId: "338870342605",
+            appId: "1:338870342605:web:ZGQyM2QwZTZmNWFjMjhhNjlmOWM5Y"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Global State
+        window.GENRES = [
+            "FPS", "TPS", "Hack and Slash", "Beat em up", "Plataformas", 
+            "RTS/TBS", "Tower Defense", "City Builder", "RPG", "Roguelike", 
+            "Metroidvania", "Aventura Gráfica", "Novela Visual", "Point and Click", 
+            "Survival Horror", "Carreras", "Simulación", "Puzles", "Arcade", "Lucha"
+        ];
+
+        window.games = [];
+        window.news = [];
+        window.donations = [];
+        window.guestbook = [];
+        window.heroSettings = {
+            mascotUrl: "https://picsum.photos/id/237/300/200",
+            bgUrl: "https://picsum.photos/id/1064/1920/1080"
+        };
+
+        window.activeGenreFilter = "TODOS";
+        window.currentGameDetailId = null;
+        window.secretKeyBuffer = "";
+
+        // LISTEN TO FIREBASE REALTIME DATABASE CHANGES
+        onValue(ref(db, 'games'), (snapshot) => {
+            const data = snapshot.val();
+            window.games = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })) : [];
+            renderGames();
+            renderFeatured();
+            if (document.getElementById('modal-admin-panel') && !document.getElementById('modal-admin-panel').classList.contains('hidden')) {
+                renderAdminGamesList();
+            }
+        });
+
+        onValue(ref(db, 'news'), (snapshot) => {
+            const data = snapshot.val();
+            window.news = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })) : [];
+            renderNews();
+            renderAdminNewsList();
+        });
+
+        onValue(ref(db, 'donations'), (snapshot) => {
+            const data = snapshot.val();
+            window.donations = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })) : [];
+            renderDonations();
+            renderAdminDonateList();
+        });
+
+        onValue(ref(db, 'guestbook'), (snapshot) => {
+            const data = snapshot.val();
+            window.guestbook = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })).reverse() : [];
+            renderGuestbook();
+        });
+
+        onValue(ref(db, 'heroSettings'), (snapshot) => {
+            const data = snapshot.val();
+            if (data) window.heroSettings = data;
+            applyHeroSettings();
+        });
+
+        // SAVE & CRUD FUNCTIONS CONNECTED TO FIREBASE
+        window.saveGame = function(e) {
+            e.preventDefault();
+            const id = document.getElementById('admin-game-id').value;
+            const title = document.getElementById('admin-game-title').value.trim();
+            const category = document.getElementById('admin-game-cat').value;
+            const year = parseInt(document.getElementById('admin-game-year').value);
+            const size = document.getElementById('admin-game-size').value.trim();
+            const img = document.getElementById('admin-game-img').value.trim();
+            const link = document.getElementById('admin-game-link').value.trim();
+            const shotsRaw = document.getElementById('admin-game-shots').value.trim();
+            const desc = document.getElementById('admin-game-desc').value.trim();
+
+            const reqCpu = document.getElementById('admin-game-cpu').value.trim();
+            const reqRam = document.getElementById('admin-game-ram').value.trim();
+            const reqGpu = document.getElementById('admin-game-gpu').value.trim();
+            const reqOs = document.getElementById('admin-game-os').value.trim();
+
+            const shots = shotsRaw ? shotsRaw.split(',').map(s => s.trim()) : [];
+
+            const gameData = {
+                title, category, year, size, img, link, shots, desc,
+                reqCpu, reqRam, reqGpu, reqOs
+            };
+
+            if (id) {
+                // Update in Firebase
+                set(ref(db, `games/${id}`), {
+                    ...gameData,
+                    rating: window.games.find(g => g.id == id)?.rating || 5.0,
+                    ratingsCount: window.games.find(g => g.id == id)?.ratingsCount || 1,
+                    downloads: window.games.find(g => g.id == id)?.downloads || 0
+                }).then(() => alert("¡Juego actualizado en la Nube!"));
+            } else {
+                // Create in Firebase
+                const newRef = push(ref(db, 'games'));
+                set(newRef, {
+                    ...gameData,
+                    rating: 5.0,
+                    ratingsCount: 1,
+                    downloads: 0
+                }).then(() => alert("¡Juego guardado en la Nube!"));
+            }
+
+            resetGameForm();
+        };
+
+        window.deleteGame = function(id) {
+            if (confirm("¿Eliminar este juego definitivamente del catálogo en la nube?")) {
+                remove(ref(db, `games/${id}`));
+            }
+        };
+
+        window.saveHeroSettings = function(e) {
+            e.preventDefault();
+            const mascotUrl = document.getElementById('admin-hero-mascot').value.trim();
+            const bgUrl = document.getElementById('admin-hero-bg').value.trim();
+            set(ref(db, 'heroSettings'), { mascotUrl, bgUrl }).then(() => alert("¡Ajustes visuales guardados en la Nube!"));
+        };
+
+        window.addNews = function(e) {
+            e.preventDefault();
+            const title = document.getElementById('admin-news-title').value.trim();
+            const desc = document.getElementById('admin-news-desc').value.trim();
+            push(ref(db, 'news'), { title, desc });
+            document.getElementById('admin-news-title').value = "";
+            document.getElementById('admin-news-desc').value = "";
+        };
+
+        window.deleteNews = function(id) {
+            remove(ref(db, `news/${id}`));
+        };
+
+        window.addDonateOption = function(e) {
+            e.preventDefault();
+            const method = document.getElementById('admin-don-method').value.trim();
+            const details = document.getElementById('admin-don-details').value.trim();
+            push(ref(db, 'donations'), { method, details });
+            document.getElementById('admin-don-method').value = "";
+            document.getElementById('admin-don-details').value = "";
+        };
+
+        window.deleteDonate = function(id) {
+            remove(ref(db, `donations/${id}`));
+        };
+
+        window.addGuestbookComment = function(e) {
+            e.preventDefault();
+            const nick = document.getElementById('gb-nick').value.trim();
+            const msg = document.getElementById('gb-msg').value.trim();
+            if (!nick || !msg) return;
+
+            push(ref(db, 'guestbook'), { nick, msg, date: new Date().toISOString().split('T')[0] });
+            document.getElementById('gb-nick').value = "";
+            document.getElementById('gb-email').value = "";
+            document.getElementById('gb-msg').value = "";
+        };
+
+        window.rateCurrentGame = function(userScore) {
+            if (!window.currentGameDetailId) return;
+            const game = window.games.find(g => g.id === window.currentGameDetailId);
+            if (!game) return;
+
+            let currentRating = parseFloat(game.rating) || 5.0;
+            let count = parseInt(game.ratingsCount) || 1;
+
+            let newRating = ((currentRating * count) + userScore) / (count + 1);
+            newRating = Math.round(newRating * 10) / 10;
+
+            set(ref(db, `games/${game.id}/rating`), newRating);
+            set(ref(db, `games/${game.id}/ratingsCount`), count + 1);
+
+            document.getElementById('detail-rating').innerText = `★ ${newRating}`;
+            highlightStars(userScore);
+            alert(`¡Gracias por calificar este juego con ${userScore} estrella(s)!`);
+        };
+
+        window.confirmDownload = function() {
+            const game = window.games.find(g => g.id === window.currentGameDetailId);
+            if (game) {
+                const newDownloads = (game.downloads || 0) + 1;
+                set(ref(db, `games/${game.id}/downloads`), newDownloads);
+                document.getElementById('detail-downloads').innerText = newDownloads;
+                window.open(game.link, '_blank');
+            }
+            closeModal('modal-disclaimer');
+        };
+
+        window.addGameComment = function(e) {
+            e.preventDefault();
+            const input = document.getElementById('game-comment-input');
+            const txt = input.value.trim();
+            if (!txt || !window.currentGameDetailId) return;
+
+            push(ref(db, `gameComments/${window.currentGameDetailId}`), txt);
+            input.value = "";
+        };
+
+        // UI RENDERERS
+        window.applyHeroSettings = function() {
+            document.getElementById('mascot-img').src = window.heroSettings.mascotUrl;
+            document.getElementById('main-body').style.backgroundImage = `url('${window.heroSettings.bgUrl}')`;
+        };
+
+        window.renderGenreButtons = function() {
+            const container = document.getElementById('genre-buttons');
+            let html = `<button onclick="setGenreFilter('TODOS')" class="xp-btn-std text-[11px] ${window.activeGenreFilter === 'TODOS' ? 'font-bold border-blue-600 bg-blue-100' : ''}">Todos</button>`;
+            
+            window.GENRES.forEach(g => {
+                html += `<button onclick="setGenreFilter('${g}')" class="xp-btn-std text-[11px] ${window.activeGenreFilter === g ? 'font-bold border-blue-600 bg-blue-100' : ''}">${g}</button>`;
+            });
+            
+            container.innerHTML = html;
+        };
+
+        window.populateCategorySelect = function() {
+            const catSelect = document.getElementById('admin-game-cat');
+            catSelect.innerHTML = window.GENRES.map(g => `<option value="${g}">${g}</option>`).join('');
+        };
+
+        window.setGenreFilter = function(genre) {
+            window.activeGenreFilter = genre;
+            document.getElementById('active-filter-label').innerText = genre === 'TODOS' ? 'Todos los géneros' : `Género: ${genre}`;
+            renderGenreButtons();
+            filterGames();
+        };
+
+        window.resetFilters = function() {
+            document.getElementById('search-input').value = "";
+            setGenreFilter('TODOS');
+        };
+
+        window.renderGames = function(list = window.games) {
+            const grid = document.getElementById('games-grid');
+            const noRes = document.getElementById('no-results');
+
+            if (!list || list.length === 0) {
+                grid.innerHTML = "";
+                noRes.classList.remove('hidden');
+                return;
+            }
+
+            noRes.classList.add('hidden');
+            grid.innerHTML = list.map(game => `
+                <div class="xp-window flex flex-col hover:border-amber-500 transition-colors">
+                    <div class="xp-titlebar text-xs py-1">
+                        <span class="truncate">${game.title}</span>
+                        <span>${game.year}</span>
+                    </div>
+                    <div class="p-2 flex-1 flex flex-col space-y-2 bg-white">
+                        <div class="h-40 w-full overflow-hidden rounded border border-gray-300 relative cursor-pointer" onclick="openGameDetail('${game.id}')">
+                            <img src="${game.img}" alt="${game.title}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" onerror="this.src='https://picsum.photos/id/1060/400/500'">
+                            <span class="absolute bottom-1 right-1 bg-black/70 text-white text-[10px] px-1.5 py-0.5 rounded">${game.size}</span>
+                        </div>
+                        <div class="flex-1 space-y-1 text-xs">
+                            <div class="flex justify-between items-center text-[11px] text-gray-600">
+                                <span class="bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded">${game.category}</span>
+                                <span><i class="fa-solid fa-star text-amber-500"></i> ${game.rating || 5.0}</span>
+                            </div>
+                        </div>
+                        <button onclick="openGameDetail('${game.id}')" class="xp-btn-std text-xs w-full justify-center">
+                            <i class="fa-solid fa-folder-open text-amber-600"></i> Ver Ficha y Descarga
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        };
+
+        window.filterGames = function() {
+            const q = document.getElementById('search-input').value.toLowerCase().trim();
+            const filtered = window.games.filter(g => {
+                const matchesGenre = window.activeGenreFilter === 'TODOS' || g.category === window.activeGenreFilter;
+                const matchesQuery = g.title.toLowerCase().includes(q) || g.category.toLowerCase().includes(q);
+                return matchesGenre && matchesQuery;
+            });
+            renderGames(filtered);
+        };
+
+        window.renderFeatured = function() {
+            if (!window.games || window.games.length === 0) return;
+            const fg = window.games[0];
+            document.getElementById('featured-title').innerText = fg.title;
+            document.getElementById('featured-desc').innerText = fg.desc;
+            document.getElementById('featured-year').innerText = fg.year;
+            document.getElementById('featured-size').innerText = fg.size;
+            document.getElementById('featured-cat').innerText = fg.category;
+            document.getElementById('featured-rating').innerText = `★ ${fg.rating || 5.0}`;
+            document.getElementById('featured-img').src = fg.img;
+            document.getElementById('featured-btn').onclick = () => openGameDetail(fg.id);
+        };
+
+        window.openGameDetail = function(id) {
+            const game = window.games.find(g => g.id === id);
+            if (!game) return;
+
+            window.currentGameDetailId = id;
+            document.getElementById('detail-titlebar').innerText = `Ficha Técnica - ${game.title}`;
+            document.getElementById('detail-title').innerText = game.title;
+            document.getElementById('detail-genre').innerText = `Categoría: ${game.category}`;
+            document.getElementById('detail-year').innerText = game.year;
+            document.getElementById('detail-size').innerText = game.size;
+            document.getElementById('detail-rating').innerText = `★ ${game.rating || 5.0}`;
+            document.getElementById('detail-downloads').innerText = game.downloads || 0;
+            document.getElementById('detail-desc').innerText = game.desc;
+
+            document.getElementById('req-cpu').innerText = game.reqCpu || "Intel Atom N270 / Pentium 4 a 1.6 GHz o superior.";
+            document.getElementById('req-ram').innerText = game.reqRam || "512 MB - 1 GB.";
+            document.getElementById('req-gpu').innerText = game.reqGpu || "Integrados Intel GMA 950 / 3150 o aceleración DirectX 9.0c.";
+            document.getElementById('req-os').innerText = game.reqOs || "Windows XP / 7 / 10 / Canaima GNU Linux (Wine).";
+
+            document.getElementById('box-front-img').style.backgroundImage = `url('${game.img}')`;
+            document.getElementById('box-spine-text').innerText = game.title.substring(0, 18).toUpperCase();
+
+            const shotsContainer = document.getElementById('detail-screenshots');
+            if (game.shots && game.shots.length > 0) {
+                shotsContainer.innerHTML = game.shots.map(url => `
+                    <img src="${url}" class="h-20 w-full object-cover rounded border border-gray-400" onerror="this.src='https://picsum.photos/id/1060/300/200'">
+                `).join('');
+            } else {
+                shotsContainer.innerHTML = `<p class="text-xs text-gray-500 col-span-3">No hay capturas adicionales.</p>`;
+            }
+
+            // Load Game Comments from Firebase
+            onValue(ref(db, `gameComments/${id}`), (snapshot) => {
+                const data = snapshot.val();
+                const container = document.getElementById('game-comments-list');
+                if (!data) {
+                    container.innerHTML = `<p class="text-xs text-gray-500 italic">Sé el primero en comentar sobre este juego.</p>`;
+                    return;
+                }
+                const list = Object.values(data);
+                container.innerHTML = list.map(c => `
+                    <div class="bg-white p-2 border border-gray-300 rounded text-xs">
+                        <p class="text-gray-800">${c}</p>
+                    </div>
+                `).join('');
+            });
+
+            highlightStars(Math.round(game.rating || 5));
+            showSection('detail');
+        };
+
+        window.showSection = function(name) {
+            if (name === 'home') {
+                document.getElementById('section-home').classList.remove('hidden');
+                document.getElementById('section-detail').classList.add('hidden');
+            } else if (name === 'detail') {
+                document.getElementById('section-home').classList.add('hidden');
+                document.getElementById('section-detail').classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        };
+
+        window.scrollToCatalogue = function() {
+            showSection('home');
+            document.getElementById('catalogue-section').scrollIntoView({ behavior: 'smooth' });
+        };
+
+        window.setupStarRatingEvents = function() {
+            const stars = document.querySelectorAll('#user-star-rating i');
+            stars.forEach(star => {
+                star.addEventListener('mouseover', function() {
+                    const val = parseInt(this.getAttribute('data-value'));
+                    stars.forEach((s, idx) => {
+                        if (idx < val) s.classList.add('hovered');
+                        else s.classList.remove('hovered');
+                    });
                 });
 
-                if (gamesContainer) gamesContainer.innerHTML = htmlJuegos || '<p style="padding:10px;">No hay juegos cargados aún.</p>';
-                if (programsContainer) programsContainer.innerHTML = htmlProgramas || '<p style="padding:10px;">No hay programas cargados aún.</p>';
+                star.addEventListener('mouseout', function() {
+                    stars.forEach(s => s.classList.remove('hovered'));
+                });
 
+                star.addEventListener('click', function() {
+                    const val = parseInt(this.getAttribute('data-value'));
+                    rateCurrentGame(val);
+                });
+            });
+        };
+
+        window.highlightStars = function(val) {
+            const stars = document.querySelectorAll('#user-star-rating i');
+            stars.forEach((s, idx) => {
+                if (idx < val) s.classList.add('active');
+                else s.classList.remove('active');
+            });
+        };
+
+        window.setup3DBoxEffect = function() {
+            const container = document.getElementById('box-container');
+            const box = document.getElementById('interactive-box');
+
+            container.addEventListener('mousemove', (e) => {
+                const rect = container.getBoundingClientRect();
+                const x = e.clientX - rect.left - (rect.width / 2);
+                const y = e.clientY - rect.top - (rect.height / 2);
+                
+                const rotX = -y / 5;
+                const rotY = x / 5;
+
+                box.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+            });
+
+            container.addEventListener('mouseleave', () => {
+                box.style.transform = `rotateY(-25deg) rotateX(10deg)`;
+            });
+        };
+
+        window.openDownloadModal = function() {
+            document.getElementById('modal-disclaimer').classList.remove('hidden');
+        };
+
+        window.closeModal = function(id) {
+            document.getElementById(id).classList.add('hidden');
+        };
+
+        window.renderGuestbook = function() {
+            const container = document.getElementById('guestbook-list');
+            container.innerHTML = window.guestbook.map(g => `
+                <div class="bg-gray-50 p-2 border border-gray-300 rounded">
+                    <div class="flex justify-between items-center text-[10px] text-gray-500">
+                        <strong class="text-blue-900">${g.nick}</strong>
+                        <span>${g.date}</span>
+                    </div>
+                    <p class="text-xs text-gray-800 mt-1">${g.msg}</p>
+                </div>
+            `).join('');
+        };
+
+        window.renderNews = function() {
+            const container = document.getElementById('news-container');
+            container.innerHTML = window.news.map(n => `
+                <div class="bg-white p-2 border border-gray-300 rounded text-xs space-y-1">
+                    <h5 class="font-bold text-blue-900">${n.title}</h5>
+                    <p class="text-gray-700 text-[11px]">${n.desc}</p>
+                </div>
+            `).join('');
+        };
+
+        window.openDonateModal = function() {
+            document.getElementById('modal-donate').classList.remove('hidden');
+        };
+
+        window.renderDonations = function() {
+            const container = document.getElementById('donations-list');
+            container.innerHTML = window.donations.map(d => `
+                <div class="bg-gray-50 p-2 border border-gray-300 rounded">
+                    <strong class="text-blue-900 block">${d.method}</strong>
+                    <code class="text-[11px] text-gray-800 font-mono">${d.details}</code>
+                </div>
+            `).join('');
+        };
+
+        window.setupSecretListener = function() {
+            document.addEventListener('keydown', (e) => {
+                if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
+
+                window.secretKeyBuffer += e.key.toLowerCase();
+                if (window.secretKeyBuffer.length > 20) {
+                    window.secretKeyBuffer = window.secretKeyBuffer.substring(window.secretKeyBuffer.length - 20);
+                }
+
+                if (window.secretKeyBuffer.includes("gameoncanaima")) {
+                    window.secretKeyBuffer = "";
+                    document.getElementById('modal-admin-auth').classList.remove('hidden');
+                }
+            });
+        };
+
+        window.verifyAdminPass = function(e) {
+            e.preventDefault();
+            const pass = document.getElementById('admin-pass-input').value.trim().toLowerCase();
+            if (["exitoso", "exito", "admin", "canaima"].includes(pass)) {
+                closeModal('modal-admin-auth');
+                document.getElementById('admin-pass-input').value = "";
+                openAdminPanel();
             } else {
-                if(gamesContainer) gamesContainer.innerHTML = `<p style="padding:10px;">Sin registros en la base de datos.</p>`;
-                if(programsContainer) programsContainer.innerHTML = `<p style="padding:10px;">Sin programas en la base de datos.</p>`;
+                alert("Acceso denegado.");
             }
-        } catch (err) {
-            console.error(err);
-        }
-    }
+        };
 
-    window.onload = function() {
-        cargarAvisoInicio();
-        cargarJuegosSupabase();
-        cargarComentarios();
-    };
-</script>
+        window.openAdminPanel = function() {
+            renderAdminGamesList();
+            renderAdminNewsList();
+            renderAdminDonateList();
+            document.getElementById('admin-hero-mascot').value = window.heroSettings.mascotUrl;
+            document.getElementById('admin-hero-bg').value = window.heroSettings.bgUrl;
+            document.getElementById('modal-admin-panel').classList.remove('hidden');
+        };
+
+        window.switchAdminTab = function(tab) {
+            ['games', 'hero', 'news', 'donate'].forEach(t => {
+                document.getElementById(`admin-tab-${t}`).classList.add('hidden');
+                document.getElementById(`tab-btn-${t}`).classList.remove('active');
+            });
+            document.getElementById(`admin-tab-${tab}`).classList.remove('hidden');
+            document.getElementById(`tab-btn-${tab}`).classList.add('active');
+        };
+
+        window.renderAdminGamesList = function() {
+            const container = document.getElementById('admin-games-list');
+            container.innerHTML = window.games.map(g => `
+                <tr>
+                    <td class="p-2"><img src="${g.img}" class="w-8 h-10 object-cover rounded"></td>
+                    <td class="p-2 font-bold">${g.title}</td>
+                    <td class="p-2">${g.category}</td>
+                    <td class="p-2">${g.size}</td>
+                    <td class="p-2 text-center">
+                        <button onclick="editGame('${g.id}')" class="xp-btn-std text-[10px]"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="deleteGame('${g.id}')" class="xp-btn-std text-[10px] text-red-600"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        };
+
+        window.editGame = function(id) {
+            const g = window.games.find(item => item.id === id);
+            if (!g) return;
+            document.getElementById('admin-game-id').value = g.id;
+            document.getElementById('admin-game-title').value = g.title;
+            document.getElementById('admin-game-cat').value = g.category;
+            document.getElementById('admin-game-year').value = g.year;
+            document.getElementById('admin-game-size').value = g.size;
+            document.getElementById('admin-game-img').value = g.img;
+            document.getElementById('admin-game-link').value = g.link;
+            document.getElementById('admin-game-shots').value = g.shots ? g.shots.join(', ') : '';
+            document.getElementById('admin-game-desc').value = g.desc;
+
+            document.getElementById('admin-game-cpu').value = g.reqCpu || '';
+            document.getElementById('admin-game-ram').value = g.reqRam || '';
+            document.getElementById('admin-game-gpu').value = g.reqGpu || '';
+            document.getElementById('admin-game-os').value = g.reqOs || '';
+        };
+
+        window.resetGameForm = function() {
+            document.getElementById('admin-game-id').value = "";
+            document.getElementById('admin-game-title').value = "";
+            document.getElementById('admin-game-year').value = "2005";
+            document.getElementById('admin-game-size').value = "";
+            document.getElementById('admin-game-img').value = "";
+            document.getElementById('admin-game-link').value = "";
+            document.getElementById('admin-game-shots').value = "";
+            document.getElementById('admin-game-desc').value = "";
+            document.getElementById('admin-game-cpu').value = "";
+            document.getElementById('admin-game-ram').value = "";
+            document.getElementById('admin-game-gpu').value = "";
+            document.getElementById('admin-game-os').value = "";
+        };
+
+        window.renderAdminNewsList = function() {
+            const container = document.getElementById('admin-news-list');
+            container.innerHTML = window.news.map(n => `
+                <div class="bg-white p-2 border border-gray-300 rounded flex justify-between items-center text-xs">
+                    <div>
+                        <strong>${n.title}</strong>
+                        <p class="text-gray-600 text-[11px]">${n.desc}</p>
+                    </div>
+                    <button onclick="deleteNews('${n.id}')" class="xp-btn-std text-xs text-red-600"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `).join('');
+        };
+
+        window.renderAdminDonateList = function() {
+            const container = document.getElementById('admin-donate-list');
+            container.innerHTML = window.donations.map(d => `
+                <div class="bg-white p-2 border border-gray-300 rounded flex justify-between items-center text-xs">
+                    <div>
+                        <strong>${d.method}</strong>
+                        <p class="text-gray-600 text-[11px] font-mono">${d.details}</p>
+                    </div>
+                    <button onclick="deleteDonate('${d.id}')" class="xp-btn-std text-xs text-red-600"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `).join('');
+        };
+
+        // Realtime XP Clock
+        function startClock() {
+            function update() {
+                const d = new Date();
+                document.getElementById('xp-clock').innerText = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            }
+            update();
+            setInterval(update, 10000);
+        }
+
+        // On Load Init
+        window.onload = function() {
+            startClock();
+            renderGenreButtons();
+            populateCategorySelect();
+            setup3DBoxEffect();
+            setupSecretListener();
+            setupStarRatingEvents();
+        };
+    </script>
 </body>
 </html>
